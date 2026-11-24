@@ -176,22 +176,24 @@ işaret ediyor; içeriği okunmadı).
   dallarındaki 30 commit'te; `.env` izleniyor.
 
 <!-- V312-KAPANIS-BAS -->
-## 35) V312 (devam 2) — resmî Complexity füzyon kapısı + betik tohum düzeltmesi; 74 nokta (2026-11-24 20:51)
+## 35) V312 (devam 3) — yeni komutlar + Shadow Stack Compatible; 88 nokta (2026-11-24 21:40)
 
-**Motor:** 74 yama noktası / 22 dosya / +493 −37 satır. Yeni: (1) VM komut füzyonuna
-olasılık kapısı (processors.cc; resmî "bileşik işleyici olasılığı" semantiği; Intel + .NET), (2) betik
-sonrası tohum yeniden uygulanması (core.cc) — betik yolu artık deterministik, (3) proje seçeneklerinin
-XML'e yazılması.
-**Doğrulama:** 37 varyasyon (yamali_v3): rc=0 37/37, wine olumlu 35/37 (kalan ikisi tasarım
-gereği koşulmaz). fc merdiveni 586.240/603.136/614.400 B (füzyon kapılı); c merdiveni 585.728→1.629.696 B;
-instances 76.800→585.216 B; VM 2.X 158.720 B. Betik 3× özdeş, konsol 3× özdeş, aynı boyut.
-**Resmî kaynak:** Allver rar eski /tmp indirmesinde bulundu → 3.9.4 kurulumu + Help/en.qch (Qt SQLite)
-çıkarıldı (scripts/v312_qch_cek.py); changelog 3.5.1→3.9.4 birebir doğrulandı: VM başlıklarının (Version /
-Instances / proje+fonksiyon Complexity / '?' maskeli bölüm adları) hepsi bizde; tek seçenek eksiği
-"Shadow Stack Compatible" (3.8.3, PE).
-**Teslim:** download/vmp_yukseltme_3.9.4/ (diff, kayıtlar, ölçümler v2+v3, betikler, yamalı kaynak zip'i,
-rapor). work/ git dışıdır; kaybolursa CHECKPOINT'teki betik zinciriyle yeniden kurulur.
-**Sonraki adımlar:** (1) Shadow Stack Compatible; (2) Qt GUI derlemesi; (3) yeni komutlar (RORX, VPSLLVQ,
-VPMASKMOV*, ROUNDSS/SD, SARX/SHRX/SHLX, EXTRACTPS/INSERTPS, MOVD/MOVQ); (4) 3.9.4 konsol ikilisi bulunursa
-birebir CLI karşılaştırması.
+**Motor:** 88 yama noktası / 23 dosya / +716 −43 satır. Yeni: (1) 12 yeni
+komutun ayrıştırması (SARX/SHRX/SHLX/RORX, EXTRACTPS/INSERTPS, ROUNDSS/ROUNDSD, VPBLENDD/VPSLLVQ/
+VPMASKMOVD/Q) + VPBLENDD/PHADDD VEX ayrımı (intel.h/intel.cc), (2) "Shadow Stack Compatible"
+(3.8.3): cpShadowStackCompatible biti, XML/konsol -ss/Lua/GUI kanalları, çıktı PE'sine
+IMAGE_DLLCHARACTERISTICS_EX_CET_COMPAT (0x0001) yazımı + mutasyonun jmp→push/ret dönüşümünü
+kapatma (pefile.cc + intel.cc; ölçüm: 3 tohumla push;ret 1→0).
+**Doğrulama:** yeni komut test PE'si (13 komut): taban "Command not supported" (0x140001017),
+yamalı "Compilation completed"; korunan SSE4.1/AVX2/BMI2 grupları wine'da temiz (ham minimal PE
+taban çizgisi kendisi hatalı — belgelendi). Shadow Stack: -ss 1 → DllChar=0x0001, -ss 0 → 0x0000,
+sabit tohumla 2× özdeş, Lua Options="524288" turu. Matris yamali_v4: 37/37 rc=0; sabit tohumlu
+satırlar v3 ile özdeş (regresyon yok).
+**Resmî kaynak:** Help/en.qch changelog'un tüm kullanıcı yüzü kalemleri artık §2b tablosunda
+işaretli: eksik kalan yalnızca MOVD/MOVQ sanallaştırma (xmm yazmaç modeli yok), 3.7 anti-decompiler,
+.NET/Mach-O kalemleri.
+**Teslim:** download/vmp_yukseltme_3.9.4/ (diff, kayıtlar, ölçümler, betikler, yamalı kaynak
+zip'i, rapor). work/ git dışıdır; kaybolursa CHECKPOINT'teki betik zinciriyle yeniden kurulur.
+**Sonraki adımlar:** (1) MOVD/MOVQ VM sanallaştırma (xmm modeli); (2) Qt GUI derlemesi (araç
+zinciri gerektirir); (3) 3.7 anti-decompiler mekanizması; (4) .NET [DllExport]/Mach-O.
 <!-- V312-KAPANIS-SON -->

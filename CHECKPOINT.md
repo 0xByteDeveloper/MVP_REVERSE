@@ -1,11 +1,11 @@
 # MVP_REVERSE KONTROL NOKTASI — V312 (VMProtect 3.5.1 → 3.9.4)
 
-Güncelleme: 2026-11-24 20:51. Amaç: eldeki 3.5.1 kaynak kodunu geliştirerek 3.9.4'ün özelliklerini birebir
+Güncelleme: 2026-11-24 21:40. Amaç: eldeki 3.5.1 kaynak kodunu geliştirerek 3.9.4'ün özelliklerini birebir
 kazandırmak. Önceki durum WORKLOG.md / WORKLOG2.md bölümler 33–35'te.
 
 ## Durum
 
-- 74 noktalı yama uygulandı (diff ve kayıtlar MyRepo download/vmp_yukseltme_3.9.4/patch/);
+- 88 noktalı yama uygulandı (diff ve kayıtlar MyRepo download/vmp_yukseltme_3.9.4/patch/);
   yamalı kaynak ağacının tam kopyası src/vmp_3.5.1_yamali_3.9.4_kaynak.zip içinde.
 - Eklenenler: proje + fonksiyon Complexity (resmî füzyon kapısıyla), Instances, VM sürümü, rastgele
   bölüm adı, tohum (betik yolu dahil deterministik); kanallar: XML, konsol (-vm/-vi/-vc/-rs), Lua
@@ -15,10 +15,9 @@ kazandırmak. Önceki durum WORKLOG.md / WORKLOG2.md bölümler 33–35'te.
 
 ## Bilinen açıklar (öncelik sırasıyla)
 
-1. "Shadow Stack Compatible" (3.8.3 PE proje seçeneği) uygulanmadı — resmî changelog'taki tek kalan
-   seçenek eksiği.
-2. Qt GUI derlenmedi; yeni komut desteği (RORX, VPSLLVQ, VPMASKMOV*, ROUNDSS/SD, SARX/SHRX/SHLX,
-   EXTRACTPS/INSERTPS, MOVD/MOVQ) yok.
+1. MOVD/MOVQ VM sanallaştırması (3.7.3) yok — 3.5.1 VM'inin xmm yazmaç modeli yok; komutlar
+   ayrıştırma düzeyinde destekli.
+2. Qt GUI derlenmedi (sandbox'ta qmake/moc yok; satırlar kaynakta hazır).
 3. 3.7 "statik dekompile koruması" kısmen (mutasyon + füzyon); .NET [DllExport]/WPF ve Mach-O
    düzeltmeleri yok.
 
