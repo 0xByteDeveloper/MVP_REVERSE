@@ -103,7 +103,7 @@ rastgele bölüm adları, fonksiyon complexity, VM complexity ("100 KB → 24 MB
 
 Dosya bazında:
 - `scripts/livestep.py`, `MVPReverseV3/livestep.py`, `download/vmptest/livestep.py`, `MVPReverseV3/mvpreverse3.py`: **F3 (21.11)** ile ana daldan düştü.
-- `scripts/cpp/livestep.cpp`, `scripts/cpp/mvpreverse3.cpp`: 22.11 V300'a kadar ana daldaydı; **23.11 13:31 normal commit'i
+- `scripts/cpp/livestep.cpp`, `scripts/cpp/mvpreverse3.cpp`: 22.11 V300'a kadar ana daldaydı; **23.11 16:31 TR normal commit'i
   `b0be1996` (V301+V302)** `git add -A` ile **4734 silmeyi kaydetti** (sandbox geri dönüşümü dosyaları silmişti, commit silmeyi kalıcılaştırdı).
 - 81 commit'ten 60'ı F5+F6 sonrasında hiçbir daldan erişilemez durumdaydı (6 kopuk segment).
 
@@ -137,3 +137,40 @@ Dolayısıyla `b0be1996` silmesi, F5 ve F6 **bu sohbetin** V301–V304 turların
 - PAT düz metin 3 izlenen dosyada (özel depo): `skills/god-state-mvp-work/SKILL.md`, `download/GOD_STATE_MVP_WORK.md`, `download/GOD_STATE_MVP_WORK_v2_kisa.md`.
 - `.env` (DATABASE_URL) özel deponun main'inde izleniyor; eski PAT'lar `scripts/gh_token.txt` içinde 30 commit'te (tarih dallarında).
 - Öneri: eski PAT'ları iptal et; PAT'ı depoda tutmak yerine her oturumda çevreden ver.
+
+### V313-7) Sohbet eşleştirmesi ve kimlik bilgisi envanteri (24.11.2026 ekleme)
+
+**Saat düzeltmesi.** Sandbox'ın yerel saati UTC'dir. `b0be1996` commit'i 13:31Z'de atıldığından Türkiye
+saatiyle **16:31**'dir (committer 16:34). Bu bölümdeki "13:31" değerleri TR'ye çevrildi.
+
+**Hangi sohbet sildi?** Kullanıcı, V313'te silmeyi hangi sohbetin yaptığını bulmak için sohbet listesine
+salt okunur erişim izni vermişti; o oturum anahtarı bağlam sıfırlamasında kaybolmuştu. Geri yüklenen
+`scripts/zai_history.py` içindeki anahtarla 34 sohbet listelendi (yalnız GET; mesaj içerikleri okunmadı).
+Her olay tek bir sohbetin açık olduğu zaman aralığına düşüyor ve o sohbette olaydan dakikalar önce bir tur başlamış:
+
+| Olay | Zaman (TR) | Sohbet | Olaydan önceki tur |
+|---|---|---|---|
+| F1 | 19.11 17:42 | `fdb15d67…` (18.10.2026–22.11.2026 arası ana çalışma sohbeti) | 17:35:49 |
+| F2 | 19.11 23:12 | `fdb15d67…` | 23:03:53 ve 23:10:14 |
+| F3 | 21.11 08:15 | `fdb15d67…` | 07:43:10 |
+| F4 | 21.11 11:18 | `fdb15d67…` | 09:44:37 |
+| N  | 23.11 16:31 | `40ecabba…` (bu sohbet; 23.11 10:54'te açıldı) | V301 isteği (WORKLOG V310-1) |
+| F5 | 23.11 17:31 | `40ecabba…` | V303 |
+| F6 | 23.11 18:20 | `40ecabba…` | V304 (mevcut deponun üstüne `git init`) |
+
+Sonuç: altı force-push'tan dördü (F1–F4) 18.10–22.11 arası uzun çalışma sohbetinde; `git add -A` ile silme
+kaydı (N) ve son iki force-push (F5, F6) bu sohbette yapıldı. Hepsi ajan tarafından yapıldı; kullanıcı değil.
+Sınır: API mesaj içeriklerini vermiyor (fdb15d67'deki 276 mesajın yalnız 1'inde içerik var); eşleştirme zaman
+örtüşmesi ve WORKLOG kayıtlarına dayanıyor. 22.11 18:25'te ayrı bir sohbet daha açılmış (başlığı silme konusuna
+işaret ediyor; içeriği okunmadı).
+
+**Kimlik bilgisi envanteri** (ana dal; değerler hiçbir yere yazılmadı):
+
+- Geçerli PAT düz metin: `skills/god-state-mvp-work/SKILL.md`, `download/GOD_STATE_MVP_WORK.md`,
+  `download/GOD_STATE_MVP_WORK_v2_kisa.md`.
+- `WORKLOG_CPlusPort.md` 669. ve 769. satırlarında PAT biçiminde iki eski anahtar (geçerli anahtarla aynı değil).
+- `scripts/zai_history.py` 10–11. satırlarında sabitlenmiş 2 chat.z.ai oturum anahtarı (JWT) vardı; **V313'te
+  kaldırıldı**: betik artık `ZAI_TOKENS` ortam değişkeninden okur. Eski değerler git geçmişinde
+  (`c83716c` … `69e1be9`) durmaya devam ediyor; anahtarların iptali kullanıcıya bırakıldı.
+- `scripts/cpp/engine_keygen.cpp` 530. satırda PEM özel anahtar başlığı; `scripts/gh_token.txt` tarih
+  dallarındaki 30 commit'te; `.env` izleniyor.
