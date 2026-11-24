@@ -1,23 +1,26 @@
 # MVP_REVERSE KONTROL NOKTASI — V312 (VMProtect 3.5.1 → 3.9.4)
 
-Güncelleme: 2026-11-24 20:18. Amaç: eldeki 3.5.1 kaynak kodunu geliştirerek 3.9.4'ün özelliklerini birebir
+Güncelleme: 2026-11-24 20:51. Amaç: eldeki 3.5.1 kaynak kodunu geliştirerek 3.9.4'ün özelliklerini birebir
 kazandırmak. Önceki durum WORKLOG.md / WORKLOG2.md bölümler 33–35'te.
 
 ## Durum
 
-- 70 noktalı yama uygulandı (diff ve kayıtlar MyRepo download/vmp_yukseltme_3.9.4/patch/);
+- 74 noktalı yama uygulandı (diff ve kayıtlar MyRepo download/vmp_yukseltme_3.9.4/patch/);
   yamalı kaynak ağacının tam kopyası src/vmp_3.5.1_yamali_3.9.4_kaynak.zip içinde.
-- Eklenenler: proje + fonksiyon Complexity, Instances, VM sürümü, rastgele bölüm adı, tohum; kanallar:
-  XML, konsol (-vm/-vi/-vc/-rs), Lua (vmprotect.core()); Qt satırları kaynakta hazır, DERLENMEDİ.
+- Eklenenler: proje + fonksiyon Complexity (resmî füzyon kapısıyla), Instances, VM sürümü, rastgele
+  bölüm adı, tohum (betik yolu dahil deterministik); kanallar: XML, konsol (-vm/-vi/-vc/-rs), Lua
+  (vmprotect.core()); Qt satırları kaynakta hazır, DERLENMEDİ.
 - Doğrulama: 37 varyasyon çift motorlu matris (rc=0: taban 37, yamalı 37; wine 35/37),
-  konsol anahtarı testleri, Lua proje ayarı testleri.
+  konsol anahtarı testleri, Lua tam tur; resmî Help/en.qch changelog doğrulaması (rapor §2b).
 
 ## Bilinen açıklar (öncelik sırasıyla)
 
-1. Complexity'in resmî mekanizması bileşik işleyici olasılığıdır; uygulamada ön mutasyon + kripto zinciri
-   var, birleştirme kapısı yok (intel.cc Merge/can_merge/CompileCommand).
-2. Lua betik yolu konsol yolundan farklı, koşular arası tekrarlanamaz çıktı üretiyor.
-3. Qt GUI derlenmedi; .NET complexity ve Shadow Stack yok.
+1. "Shadow Stack Compatible" (3.8.3 PE proje seçeneği) uygulanmadı — resmî changelog'taki tek kalan
+   seçenek eksiği.
+2. Qt GUI derlenmedi; yeni komut desteği (RORX, VPSLLVQ, VPMASKMOV*, ROUNDSS/SD, SARX/SHRX/SHLX,
+   EXTRACTPS/INSERTPS, MOVD/MOVQ) yok.
+3. 3.7 "statik dekompile koruması" kısmen (mutasyon + füzyon); .NET [DllExport]/WPF ve Mach-O
+   düzeltmeleri yok.
 
 ## Sandbox sıfırlanınca yeniden kurulum
 
