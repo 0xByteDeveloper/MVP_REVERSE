@@ -174,3 +174,23 @@ işaret ediyor; içeriği okunmadı).
   (`c83716c` … `69e1be9`) durmaya devam ediyor; anahtarların iptali kullanıcıya bırakıldı.
 - `scripts/cpp/engine_keygen.cpp` 530. satırda PEM özel anahtar başlığı; `scripts/gh_token.txt` tarih
   dallarındaki 30 commit'te; `.env` izleniyor.
+
+<!-- V312-KAPANIS-BAS -->
+## 35) V312 (devam) — 70 noktalı yama doğrulandı, paketlendi (2026-11-24 20:18)
+
+**Motor:** 70 yama noktası / 21 dosya / +472 −37 satır. Taban ve yamalı motor Linux'ta
+derlendi; 37 varyasyon çift koşu: rc=0 taban 37/37, yamalı 37/37; wine olumlu yamalı 35/37.
+**Kanallar:** XML okuma (matris varyasyonları) ve konsol anahtarları doğrulandı (geçersiz değer reddi;
+aynı tohum 3× aynı özet 3023bf72…). Lua: proje ayarları doğrulandı; Fonksiyon complexity'si çalışma zamanında DOĞRULANAMADI (günlükte setComplexity(60)|true yok).
+**Açık bulgu 1:** resmî Complexity = bileşik işleyici olasılığı; uygulamamız yaklaşık (ön mutasyon +
+kripto zinciri); birleştirme kapısı sonraki adım (intel.cc satır ~12703; intel.cc satır ~12740; intel.cc satır ~30227).
+**Açık bulgu 2:** Lua betik yolu aynı nominal ayarlarla konsol yolundan farklı ve koşular arası
+tekrarlanamaz çıktı üretiyor; tanılanmadı.
+**Ölçü:** complexity merdiveni fn1-virt-c0=589.824 B; fn1-virt-c25=867.328 B; fn1-virt-c50=1.141.248 B; fn1-virt-c75=1.385.472 B; fn1-virt-c100=1.623.552 B; instances fn1-virt-i1=75.264 B; fn1-virt-i2=130.560 B; fn1-virt-i5=301.056 B; fn1-virt-i10=592.384 B; VM 2.X (Compact)=159.232 B, güncel=583.168 B (kılavuz: eski sürüm daha küçük byte kodu) — tutarlı; aynı tohumlu iki koşu özdeş, farklı tohum farklı, tohumsuz koşular farklı olmalı — fn1-virt-seed12345 vs fn1-virt-seed12345-tekrar: özdeş; fn1-virt-seed12345 vs fn1-virt-seed777: farklı; fn1-virt vs fn1-virt-tekrar: farklı; bölüm adları (hepsi-max): taban '.???0,.???1,.???2' → yamalı '.IV3,.Gap,.t+v'.
+**Teslim:** download/vmp_yukseltme_3.9.4/ (diff, kayıtlar, ölçümler, betikler, yamalı kaynak zip'i
+16.064.660 (16064660 B, 988 dosya), ARASTIRMA_NOTU.md, rapor v2 + Ek A). work/ git dışıdır; kaybolursa betiklerle yeniden kurulur.
+**Madde 7/8:** beş depo + aramalar + livestep.py indirildi (work/v312/web/arastirma/); not: ARASTIRMA_NOTU.md;
+belge gövdeleri okunmadı, livestep.py koşulmadı.
+**Sonraki adımlar:** (1) birleştirme kapısı; (2) Lua-konsol farkı; (3) Qt GUI derlemesi; (4) .NET
+complexity; (5) resmî 3.9.4 ile karşılaştırmalı ölçüm.
+<!-- V312-KAPANIS-SON -->
