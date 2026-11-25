@@ -226,7 +226,7 @@ VPBLENDD `0F3A.02/66`; VPMASKMOV yükleme `0F38.8C`, yazma `0F38.8E`.
 
 matris_v2 (doğrusal şablon, sınanan komut artık fonksiyonun İÇİNDE): TAMAMLANDI
   ham (korumasız, wine'da rc=42 beklenir): TAMAM=37
-  'TAMAM' ama yerel=1 (sınanan baytlar çıktıda aynen var; yerel geçit, sanallaştırma YOK): 62 satır
+  derlenen ve TAMAM olan satırlarda (düz denetim hariç) sınanan baytların çıktıda AYNEN kalması (yerel geçit → sanallaştırma YOK): taban 16, yamalı 48 | tamamen kaybolan (yerel=0): taban 0, yamalı 0
   taban : mut/DERLENEMEDI:=28, mut/TAMAM=9, virt/DERLENEMEDI:=28, virt/TAMAM=9
   yamalı: mut/DERLENEMEDI:=12, mut/TAMAM=25, virt/DERLENEMEDI:=12, virt/TAMAM=25
   gerekçe: [Error] 14000100F: Command not supported "db C4, E3, 7B, F0"
@@ -247,6 +247,7 @@ motorlar `scripts/v312_build_linux.py` (--src src_base → build_base, --src src
 kimlik deseni taşıyan eski dosyalar yüzünden duruyor), günlük: `scripts/v313_mvp_reverse_push.py`.
 **Açık:** tablo düzeltmesi; kodlayıcı/VM tarafı; MOVD/MOVQ sanallaştırma; resmî 3.9.4 GUI karşılaştırması;
 Mach-O/.NET; anti-decompiler; Qt GUI derlemesi; docx/pdf rapor + görsel denetim.
+<!-- V314_SON -->
 <!-- V314_SON -->
 <!-- V314_SON -->
 <!-- V314_SON -->
