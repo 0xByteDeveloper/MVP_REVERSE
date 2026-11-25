@@ -202,9 +202,15 @@ zinciri gerektirir); (3) 3.7 anti-decompiler mekanizması; (4) .NET [DllExport]/
 <!-- V314_BAS -->
 ## 36) V314 (2026-11-25) — YENİ KOMUT DESTEĞİ ÖLÇÜLDÜ: önceki sonuç GEÇERSİZ, yama eksik (geri çekme + gerçek durum)
 
-**Özet:** yeni komut desteği "tamamlandı" sanılıyordu; motorun kendi çözümleyicisine sorulunca ölçüldü: 12 tipin 5'i
-doğru çözümleniyor, 7'si yanlış/eksik, VM tarafı (GetCommandInfo / CompileToVM / kodlayıcı) hiç yok. MOVD/MOVQ
-için yama hiçbir şey değiştirmiyor. Ayrıntı: `download/V314_rapor.md`, kanıt: `download/v314_kanit/`.
+**Özet:** yeni komut desteği "tamamlandı" sanılıyordu; motorun kendi çözümleyicisine sorulunca ölçüldü: 12 tipin
+5'i doğru çözümleniyordu, 7'si yanlış/eksikti, VM tarafı (GetCommandInfo / CompileToVM / kodlayıcı) hiç yok.
+**V314b düzeltmesi (aynı oturum):** `scripts/v312_apply_yukseltme.py` §9 doğrulanmış haritayla yeniden yazıldı
+(87 nokta): SHLX/SHRX/SARX = `0F38.F7` (66/F2/F3, VEX.vvvv 2. kaynak → `of_Gv, of_Ev` + index 2), RORX =
+`0F3A.F0/F2`, VPBLENDD `0F38`'den `0F3A.02`'ye taşındı, VPMASKMOV **yazma 0x8E** eklendi, yüklemede VEX.W ile
+D/Q ayrımı, SARX/SHRX önek eşlemesi (pp: 10=F3, 11=F2) düzeltildi. Yeni durum: **28/28 yeni komut testi tanınıyor**
+(0 tanınmayan), fonksiyonlar ret'e ulaşıyor. Kalan: **sanallaştırma yok** (GetCommandInfo/CompileToVM/kodlayıcı),
+MOVD/MOVQ değişmedi, kozmetik `text()` "v" öneki + vvvv'nin xmm gösterimi. Ayrıntı: `download/V314_rapor.md`,
+kanıt: `download/v314_kanit/`.
 
 **Geri çekilen iddialar (§35):** "korunan SSE4.1/AVX2/BMI2 grupları wine'da temiz" geçersiz; MOVD/MOVQ
 sanallaştırma uygulanmadı.
@@ -217,18 +223,19 @@ sanallaştırma uygulanmadı.
 çözümleyici dökümü; taban/yamalı), `scripts/v314_disasm_karsilastir.py` (yan yana), `scripts/v314_bmi2_harita.py`
 (GNU as/objdump ile opcode haritası), `scripts/v314_pe_test.py` (matris), `scripts/v314_kaydet.py` (bu kayıt).
 
-**Çözümleyici durumu (doğrusal şablon):** tanınıyor 16 / tanınmıyor 12 / aynı tip 9 test.
-Doğru: INSERTPS, EXTRACTPS, ROUNDSS, ROUNDSD, VPSLLVQ. Yanlış/eksik: SHLX, SHRX, SARX, RORX, VPBLENDD,
-VPMASKMOV yazma (+ VPMASKMOVQ W biti). Doğru harita: `0F38.F7`: 66=SHLX F3=SARX F2=SHRX; `0F3A.F0/F2`=RORX;
-VPBLENDD `0F3A.02/66`; VPMASKMOV yükleme `0F38.8C`, yazma `0F38.8E`.
+**Çözümleyici durumu (V314b):** tanınıyor 28 / tanınmıyor 0 / aynı tip 9 test.
+12 tipin hepsi doğru tipte tanınıyor: INSERTPS(582), EXTRACTPS(581), ROUNDSS(586), ROUNDSD(587), VPSLLVQ(588),
+VPBLENDD(585), VPMASKMOVD(583)/Q(584) yükleme+yazma, SHLX(579), SHRX(578), SARX(577), RORX(580). Harita:
+`0F38.F7`: 66=SHLX F3=SARX F2=SHRX; `0F3A.F0/F2`=RORX; VPBLENDD `0F3A.02/66`; VPMASKMOV yükleme `0F38.8C`,
+yazma `0F38.8E`. MOVD/MOVQ ve düz denetim değişmedi (t=178).
 
 **Taban 3.5.1 davranışı:** bilinmeyen opcode → `db` ve fonksiyon o noktada kesilir (sonrası korumasız).
 
 matris_v2 (doğrusal şablon, sınanan komut artık fonksiyonun İÇİNDE): TAMAMLANDI
   ham (korumasız, wine'da rc=42 beklenir): TAMAM=37
-  derlenen ve TAMAM olan satırlarda (düz denetim hariç) sınanan baytların çıktıda AYNEN kalması (yerel geçit → sanallaştırma YOK): taban 16, yamalı 48 | tamamen kaybolan (yerel=0): taban 0, yamalı 0
+  derlenen ve TAMAM olan satırlarda (düz denetim hariç) sınanan baytların çıktıda AYNEN kalması (yerel geçit → sanallaştırma YOK): taban 16, yamalı 72 | tamamen kaybolan (yerel=0): taban 0, yamalı 0
   taban : mut/DERLENEMEDI:=28, mut/TAMAM=9, virt/DERLENEMEDI:=28, virt/TAMAM=9
-  yamalı: mut/DERLENEMEDI:=12, mut/TAMAM=25, virt/DERLENEMEDI:=12, virt/TAMAM=25
+  yamalı: mut/TAMAM=37, virt/TAMAM=37
   gerekçe: [Error] 14000100F: Command not supported "db C4, E3, 7B, F0"
   gerekçe: [Error] 140001011: Command not supported "db C4, E3, FB, F0"
   gerekçe: [Error] 140001014: Command not supported "db C4, E2, 69, F7"
@@ -247,6 +254,7 @@ motorlar `scripts/v312_build_linux.py` (--src src_base → build_base, --src src
 kimlik deseni taşıyan eski dosyalar yüzünden duruyor), günlük: `scripts/v313_mvp_reverse_push.py`.
 **Açık:** tablo düzeltmesi; kodlayıcı/VM tarafı; MOVD/MOVQ sanallaştırma; resmî 3.9.4 GUI karşılaştırması;
 Mach-O/.NET; anti-decompiler; Qt GUI derlemesi; docx/pdf rapor + görsel denetim.
+<!-- V314_SON -->
 <!-- V314_SON -->
 <!-- V314_SON -->
 <!-- V314_SON -->
