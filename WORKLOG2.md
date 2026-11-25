@@ -442,3 +442,38 @@ scripts/v313_mvp_reverse_push.py.
 <!-- V318_SON -->
 <!-- V318_SON -->
 <!-- V318_SON -->
+
+<!-- V319_BAS -->
+<!-- V319_BAS -->
+## 41) V319 (2026-11-25) — MBA (103. NOKTA) + ASKERİ İSTİKRAR + RESMÎ 3.9.4 DOKÜMANTASYONU
+
+**Özet:** x5 araştırma (2 ajan: 7 istenen repo + 20 yeni kaynak + changelog + resmî manual) → MBA dönüşüm
+kütüphanesi eklendi (5 eşdeğerlik, Complexity olasılık kapısı; 3 emniyet katmanı: bayrak-semantiği,
+REX-32, 8-bit) → 4 gerçek hata bulundu/kapatıldı → V319b bayrak kapısı (MBA×Pack/Imp/MP = ExitProcess(222),
+kanıtlı) → istikrar: **14 konfig × 3 koşu hepsi [0,0,0]** (full_arti = resmî anti-analiz davranışı).
+Resmî 3.9.4 Help/en.qch çıkarıldı (YEAHMAN563; 75 belge) — Instances(10)/Complexity(birleşik işleyici
+olasılığı)/MP(ihlalde dur) tanımları parite ölçütü. x3 kesin konfig: 6.519.296 B rc=0×3.
+
+  mut_c100_mba           opts=0x0     -vc 100 -rs 1              boyut=15360     wine=[0, 0, 0]    oyun=True  Lite 3.8.7 [Lite] dist=128 guven=
+  mut_c20_mba            opts=0x0     -vc 20 -rs 1               boyut=14336     wine=[0, 0, 0]    oyun=True  Lite 3.10.4 [Lite] dist=2944 guven=
+  virt_c100              opts=0x0     -vc 100 -rs 1              boyut=1727488   wine=[0, 0, 0]    oyun=True  Ultimate 3.8.4 [Ultimate] dist=10536
+  ultra_c100_mba         opts=0x0     -vc 100 -rs 1              boyut=1781760   wine=[0, 0, 0]    oyun=True  Ultimate 3.8.4 [Ultimate] dist=94484
+  tum13_ultra_mba        opts=0x0     -vc 100 -rs 1              boyut=1814528   wine=[0, 0, 0]    oyun=True  Ultimate 3.8.4 [Ultimate] dist=87932
+  tum13_mut_mba          opts=0x0     -vc 100 -rs 1              boyut=15872     wine=[0, 0, 0]    oyun=True  Ultimate 3.6.0 [Ultimate] dist=1888 
+  vi1_virt_c100          opts=0x0     -vc 100 -rs 1 -vi 1        boyut=196096    wine=[0, 0, 0]    oyun=True  Ultimate 3.8.4 [Ultimate] dist=10896
+  pack_yaliniz           opts=0x100   -vc 100 -rs 1              boyut=4881920   wine=[0, 0, 0]    oyun=True  Ultimate 3.6.0 [Ultimate] dist=16168
+  imp_only               opts=0x200   -vc 100 -rs 1 fc=100       boyut=5429760   wine=[0, 0, 0]    oyun=True  Ultimate 3.6.0 [Ultimate] dist=15624
+  mp_only                opts=0x1000  -vc 100 -rs 1 fc=100       boyut=8121344   wine=[0, 0, 0]    oyun=True  Ultimate 3.8.4 [Ultimate] dist=14282
+  x3_kesin_tamayar       opts=0x513c8 -vc 100 -rs 1 fc=100       boyut=6519296   wine=[0, 0, 0]    oyun=True  Ultimate 3.8.4 [Ultimate] dist=39673
+  tum_ayar_full13        opts=0x513c8 -vc 100 -rs 1              boyut=6871552   wine=[0, 0, 0]    oyun=True  Lite 3.8.7 [Lite] dist=117260 guven=
+  full_vi1               opts=0x513c8 -vc 100 -rs 1 -vi 1        boyut=2905600   wine=[0, 0, 0]    oyun=True  Ultimate 3.6.0 [Ultimate] dist=10906
+  full_arti_anti         opts=0x71fc8 -vc 100 -rs 1 fc=100       boyut=6758912   wine=[222, 222, 222] oyun=False Ultimate 3.8.4 [Ultimate] dist=83068
+
+**Devam yordamı:** v314_yeniden_kur.sh → v312_apply_yukseltme.py (103 nokta) → v312_build_linux.py →
+scripts/v319_istikrar.py → scripts/v319_qch_cikar.py → scripts/v319_html_rapor.py → v319_kaydet.py →
+v315_commit.py → v313_mvp_reverse_push.py.
+**Açık:** 1) MBA×Pack kökü, 2) birleşik işleyici, 3) kopya-başına VM farklılıkları, 4) BMI/SHA-NI/RDGSBASE
+tablo girdileri, 5) dönen-anahtar baytkodu, 6) sarmalayıcı 216→2048.
+<!-- V319_SON -->
+<!-- V319_SON -->
+<!-- V319_SON -->

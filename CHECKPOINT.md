@@ -30,3 +30,13 @@ Kanıt/rapor: MyRepo main → download/V318_packer_finder_rapor.html, download/V
 Yeniden kurma: v314_yeniden_kur.sh → (102 nokta) → v312_build_linux.py → scripts/v318_olcum.py → scripts/v318_html_rapor.py → v318_kaydet.py.
 Sıradaki iş: (1) sarmalayıcı donanımını 3.9.4 boyut profiline büyütmek (216 → 2048 B), (2) XMM'li diğer komutlar, (3) VEX kodlayıcı, (4) anti-decompiler/.NET/Mach-O, (5) BZHI/ANDN/BLSR/SHA-NI/RDGSBASE.
 <!-- V318_SON -->
+
+<!-- V319_BAS -->
+# V319 KONTROL NOKTASI — 2026-11-25
+
+Görev: VMProtect 3.5.1 → 3.9.4 yükseltme (scripts/v312_apply_yukseltme.py, 103 nokta).
+V319: MBA mutasyon dönüşümleri (bayrak/REX-32/8-bit emniyetli) + istikrar 14 konfig×3 = [0,0,0] + resmî 3.9.4 en.qch dokümantasyonu (75 belge) + 2 ajanlı araştırma (7+20 kaynak, changelog, manual).
+Kanıt/rapor: MyRepo main → download/V319_rapor.html, download/V319_rapor.md, download/v319_kanit/ ; WORKLOG2.md §41.
+Yeniden kurma: v314_yeniden_kur.sh → (103 nokta) → v312_build_linux.py → scripts/v319_istikrar.py → scripts/v319_qch_cikar.py (YEAHMAN563 klonu gerekir: work/v319/yeahman).
+Sıradaki: (1) MBA×Pack kökü, (2) birleşik işleyici olasılığı, (3) kopya-başına VM özellikleri, (4) BMI/SHA-NI/RDGSBASE girdileri, (5) dönen anahtar, (6) sarmalayıcı 216→2048.
+<!-- V319_SON -->
