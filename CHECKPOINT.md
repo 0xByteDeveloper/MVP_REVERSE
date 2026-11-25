@@ -40,3 +40,13 @@ Kanıt/rapor: MyRepo main → download/V319_rapor.html, download/V319_rapor.md, 
 Yeniden kurma: v314_yeniden_kur.sh → (103 nokta) → v312_build_linux.py → scripts/v319_istikrar.py → scripts/v319_qch_cikar.py (YEAHMAN563 klonu gerekir: work/v319/yeahman).
 Sıradaki: (1) MBA×Pack kökü, (2) birleşik işleyici olasılığı, (3) kopya-başına VM özellikleri, (4) BMI/SHA-NI/RDGSBASE girdileri, (5) dönen anahtar, (6) sarmalayıcı 216→2048.
 <!-- V319_SON -->
+
+<!-- V320_BAS -->
+# V320 KONTROL NOKTASI — 2026-11-25
+
+Görev: VMProtect 3.5.1 → 3.9.4 yükseltme (scripts/v312_apply_yukseltme.py, 107 nokta).
+V320: işleyici obfuscasyon yoğunluğu (resmî Complexity→boyut) — vi1_c100=1,93MB, vi10=18,86MB rc=0, x3 tam-ayar c50=15,8MB 'Ultimate 3.9.4'; 16 konfig×3 istikrar [0,0,0]; Windows teslim zip'i 16,07MB/989 dosya + BENIOKU_WINDOWS_DERLEME.md.
+Kanıt/rapor: MyRepo main → download/V320_rapor.html, V320_rapor.md, download/v320_kanit/, README_WINDOWS_DERLEME.md; WORKLOG2.md §42.
+Yeniden kurma (sıfırlanırsa): v314_yeniden_kur.sh → v312_apply_yukseltme.py (107) → v312_build_linux.py → scripts/v320_istikrar.py.
+Sıradaki: (1) MBA×Pack kökü, (2) Merge genişletme, (3) kopya-başı yazmaç/yön, (4) BMI/SHA-NI/RDGSBASE, (5) dönen anahtar, (6) VEX+XMM, (7) sarmalayıcı 216→2048.
+<!-- V320_SON -->

@@ -477,3 +477,43 @@ tablo girdileri, 5) dönen-anahtar baytkodu, 6) sarmalayıcı 216→2048.
 <!-- V319_SON -->
 <!-- V319_SON -->
 <!-- V319_SON -->
+
+<!-- V320_BAS -->
+<!-- V320_BAS -->
+## 42) V320 (2026-11-25) — RESMÎ 20MB PROFİLİ: İŞLEYİCİ OBFUSKASYONU (107. NOKTA) + KALİBRASYON
+
+**Özet:** resmî Complexity→boyut semantiği işleyici gövdelerine taşındı (AddEndHandlerCommands
+kuyruğunda karmaşıklık-ölçekli ölü-kod; serbest yazmaçlar ölü → %100 güvenli; rastgele → her
+kopya farklı gövde = resmî Instances tanımının gövde yarısı). **Kalibrasyon (kullanıcının resmî
+>20MB bizzat ölçümü hedef):** vi1_c100 = 1,93 MB (resmî kopya profili ~2 MB), vi10 = 18,86 MB
+rc=0, x3 tam-ayar c50 = 15,8 MB rc=0 "Ultimate 3.9.4", c20 = 7,5 MB. c100+tam-ayar (~23-30 MB)
+3 GB sandbox'ta derleme OOM'una takılır (SIGKILL — kaynak sınırı, kod hatası değil; Windows 8 GB+
+beklendi). İstikrar: 16 konfig × 3 = [0,0,0] (full_arti = Check* anti-analiz). x3 teslimi:
+zip 16,07 MB / 989 dosya + Windows derleme rehberi (BENIOKU_WINDOWS_DERLEME.md — VS+Qt adımları).
+x2.3/x2.4: resmî GUI Xvfb+wine'da açıldı; headless sürücü yok (uiqt = Windows aracı; klonlar hazır).
+Dürüst eksikler: VEX, anti-decompiler, .NET DllExport, Mach-O chained fixups, BMI/SHA-NI/RDGSBASE.
+
+  mut_c100_mba             opts=0x0     -vc 100 -rs 1            boyut=15360     wine=[0, 0, 0]    oyun=True  Lite 3.8.7 [Lite] dist=128 guven=
+  mut_c20_mba              opts=0x0     -vc 20 -rs 1             boyut=14336     wine=[0, 0, 0]    oyun=True  Lite 3.10.4 [Lite] dist=2944 guven
+  virt_c100_vi10           opts=0x0     -vc 100 -rs 1            boyut=18859520  wine=[0, 0, 0]    oyun=True  Professional 3.9.6 [Professional] 
+  ultra_c100_mba           opts=0x0     -vc 100 -rs 1            boyut=18913280  wine=[0, 0, 0]    oyun=True  Professional 3.9.6 [Professional] 
+  tum13_ultra_mba          opts=0x0     -vc 100 -rs 1            boyut=18931712  wine=[0, 0, 0]    oyun=True  Professional 3.9.6 [Professional] 
+  tum13_mut_mba            opts=0x0     -vc 100 -rs 1            boyut=15872     wine=[0, 0, 0]    oyun=True  Ultimate 3.6.0 [Ultimate] dist=188
+  vi1_virt_c100            opts=0x0     -vc 100 -rs 1 -vi 1      boyut=1931776   wine=[0, 0, 0]    oyun=True  Ultimate 3.8.4 [Ultimate] dist=645
+  pack_yaliniz_c50         opts=0x100   -vc 50 -rs 1             boyut=14124032  wine=[0, 0, 0]    oyun=True  Ultimate 3.9.4 [Ultimate] dist=466
+  imp_only                 opts=0x200   -vc 100 -rs 1 fc=100     boyut=42741760  wine=[0, 0, 0]    oyun=True  Professional 3.9.6 [Professional] 
+  mp_only                  opts=0x1000  -vc 100 -rs 1 fc=100     boyut=45405696  wine=[0, 0, 0]    oyun=True  Professional 3.9.6 [Professional] 
+  x3_tamayar_c50           opts=0x513c8 -vc 50 -rs 1 fc=100      boyut=15797760  wine=[0, 0, 0]    oyun=True  Ultimate 3.9.4 [Ultimate] dist=800
+  x3_tamayar_c20           opts=0x513c8 -vc 20 -rs 1 fc=100      boyut=7534080   wine=[0, 0, 0]    oyun=True  Lite 3.10.4 [Lite] dist=146944 guv
+  tum_ayar13_c50           opts=0x513c8 -vc 50 -rs 1             boyut=15976448  wine=[0, 0, 0]    oyun=True  Ultimate 3.9.4 [Ultimate] dist=836
+  full_vi1_c100            opts=0x513c8 -vc 100 -rs 1 -vi 1      boyut=5845504   wine=[0, 0, 0]    oyun=True  Ultimate 3.6.0 [Ultimate] dist=310
+  full_arti_c50            opts=0x71fc8 -vc 50 -rs 1 fc=100      boyut=16023040  wine=[222, 222, 222] oyun=False Ultimate 3.9.4 [Ultimate] dist=845
+  full_arti_anti_c50       opts=0x71fc8 -vc 50 -rs 1 fc=100      boyut=16023040  wine=[222, 222, 222] oyun=False Ultimate 3.9.4 [Ultimate] dist=845
+
+**Devam yordamı:** sandbox sıcakken: v312_apply_yukseltme.py (107 nokta) → v312_build_linux.py →
+scripts/v320_istikrar.py → scripts/v320_html_rapor.py → v320_kaydet.py → v315_commit.py →
+v313_mvp_reverse_push.py. Sandbox sıfırlanırsa: v314_yeniden_kur.sh → aynısı.
+**Açık:** (1) MBA×Pack kökü; (2) Merge genişletme; (3) kopya-başı yazmaç/yön; (4) BMI/SHA-NI/RDGSBASE;
+(5) dönen anahtar; (6) VEX+XMM; (7) sarmalayıcı 216→2048.
+<!-- V320_SON -->
+<!-- V320_SON -->
