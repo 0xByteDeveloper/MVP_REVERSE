@@ -370,3 +370,43 @@ fixups (3.7.3); BZHI/ANDN/BLSR/SHA-NI/RDGSBASE vb.; Qt GUI; Windows derlemesi.
 <!-- V316_SON -->
 <!-- V316_SON -->
 <!-- V316_SON -->
+
+<!-- V317_BAS -->
+<!-- V317_BAS -->
+## 39) V317 (2026-11-25) — PACKER FINDER ÖLÇÜMÜ + RESMÎ .vmp0/.vmp1 ADLANDIRMASI (101. nokta)
+
+**Özet:** Test_64.exe 11 yapılandırmayla derlendi ve MVP_GOD_SSS_TIER_PACKER_FINDER v4 ile tarandı:
+çıktılar 3.6.0–3.8.7 bandında algılanıyor (3.5.1 YOK), resmî 3.9.4'ten dist≈1M uzak. V317 yaması:
+NextSectionName sondaki rakamı artırır (`.vmp00` teli kalktı, `.vmp0` + 0x68000020 bayrağı resmî
+desenle birebir). HTML rapor: download/V317_packer_finder_rapor.html; kanıt: download/v317_kanit/.
+
+ölçüm: 11 yapılandırma (Test_64.exe, 3 fonksiyon: 0x140001470/0x140001560/0x140002320)
+  yamali_virt_c0         virt  -vc 0 -rs 1        boyut=621056   wine_rc=0 → Lite 3.8.7 [Lite] dist=486144 guven=CIFT-ADAY 
+  yamali_virt_c50        virt  -vc 50 -rs 1       boyut=1219584  wine_rc=0 → Ultimate 3.6.0 [Ultimate] dist=317124 guven=OR
+  yamali_virt_c100_s1    virt  -vc 100 -rs 1      boyut=1774592  wine_rc=0 → Ultimate 3.8.4 [Ultimate] dist=959440 guven=OR
+  yamali_virt_c100_s2    virt  -vc 100 -rs 2      boyut=1761280  wine_rc=0 → Ultimate 3.8.4 [Ultimate] dist=986096 guven=OR
+  yamali_virt_c100_s3    virt  -vc 100 -rs 3      boyut=1753600  wine_rc=0 → Ultimate 3.8.4 [Ultimate] dist=1001440 guven=O
+  yamali_virt_c100_vi3   virt  -vc 100 -rs 1 -vi 3 boyut=591872   wine_rc=0 → Lite 3.8.7 [Lite] dist=427808 guven=CIFT-ADAY 
+  yamali_virt_fc60       virt  -vc 100 -rs 1 fc=60 boyut=1734144  wine_rc=0 → Ultimate 3.8.4 [Ultimate] dist=1040208 guven=O
+  yamali_mut             mut   -rs 1              boyut=14336    wine_rc=0 → Lite 3.10.4 [Lite] dist=4864 guven=
+  yamali_ultra           ultra -vc 100 -rs 1      boyut=1774592  wine_rc=0 → Ultimate 3.8.4 [Ultimate] dist=959440 guven=OR
+  taban_virt_c100        virt  -vc 100 -rs 1      boyut=621056   wine_rc=0 → Lite 3.8.7 [Lite] dist=486144 guven=CIFT-ADAY 
+  taban_ultra            ultra -vc 100 -rs 1      boyut=634368   wine_rc=0 → Lite 3.8.7 [Lite] dist=513136 guven=CIFT-ADAY 
+referanslar:
+  Test_64_paketsiz.exe         → -
+  hello_paketsiz.exe           → -
+  vmp_394_hello.exe            → Ultimate 3.9.4 [Ultimate] dist=0 guven=YUKSEK 
+  vmp_ult_309_fn0.exe          → Ultimate 3.0.9 [Ultimate] dist=0 guven=YUKSEK 
+  vmp_ult_340_fn0.exe          → Ultimate 3.4.0 [Ultimate] dist=0 guven=YUKSEK 
+  vmp_340_adlar_degisti.exe    → Ultimate 3.4.0 [Ultimate] dist=0 guven=YUKSEK 
+  cift_vmp_340ic_394dis.exe    → -
+  uclu_upx_vmp_vmp.exe         → -
+  gercek_UPX.exe               → -
+
+**Devam yordamı:** v314_yeniden_kur.sh → v312_apply_yukseltme.py (101 nokta) → v312_build_linux.py
+→ scripts/v317_test64_coklu.py → scripts/v317_html_rapor.py → v317_kaydet.py → v315_commit.py →
+scripts/v313_mvp_reverse_push.py.
+**Açık:** çalışma-zamanı sarmalayıcı boyutu (216 → resmî 2048 B); XMM zincirleri; VEX kodlayıcı;
+anti-decompiler; .NET; Mach-O; BZHI/ANDN/BLSR/SHA-NI; Qt GUI.
+<!-- V317_SON -->
+<!-- V317_SON -->
