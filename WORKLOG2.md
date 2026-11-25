@@ -297,3 +297,76 @@ Windows derlemesi (araç zinciri yok); docx/pdf rapor.
 <!-- V315_SON -->
 <!-- V315_SON -->
 <!-- V315_SON -->
+
+<!-- V316_BAS -->
+<!-- V316_BAS -->
+## 38) V316 (2026-11-25) — MOVD/MOVQ SANALLAŞTIRMASI: changelog 3.7.3'ün son komut kalemi kapandı
+
+**Özet:** MOVD/MOVQ (XMM↔GPR/mem/XMM) yamalı motorda VM bytecode'ına çevriliyor — yerel=0 + rc=42.
+VM girişi XMM kaydetmediğinden XMM değerleri VM boyunca gerçek yazmaçlarda yaşar; yeni
+otXMMRegistr push/pop işleyicileri (16×D/Q) movd/movq ile doğrudan okur/yazar. Görünür opcode
+listesine otXMMRegistr dalı + GetCommandInfo'ya etkin boyut (Vdq=osDQWord değil, D/Q) eklendi.
+Ayrıntı: `download/V316_rapor.md`, kanıt: `download/v316_kanit/`.
+
+matris (37 test, taban+yamalı × mut+virt): TAMAMLANDI
+  ham (korumasız, rc=42 beklenir): TAMAM=37
+  TAMAM satırlarında (düz denetim hariç): yerel=0 (GERÇEK VM): taban 0, yamalı 15 | yerel>0 (kapı): taban 16, yamalı 57
+  yamalı/virt yerel=0 — MOVD/MOVQ: 5/8 (movq_g2x, movq_m2x, movq_x2g, movq_x2m, movq_x2x)
+  yamalı/virt yerel=0 — BMI2: 10/10 (rorx, rorx64, sarx, sarx_mem, shlx, shlx64, shlx_mem, shrx, shrx64, shrx_mem)
+  taban : mut/DERLENEMEDI:=28, mut/TAMAM=9, virt/DERLENEMEDI:=28, virt/TAMAM=9
+  yamalı: mut/TAMAM=37, virt/TAMAM=37
+  gerekçe: [Error] 14000100F: Command not supported "db C4, E3, 7B, F0"
+  gerekçe: [Error] 140001011: Command not supported "db C4, E3, FB, F0"
+  gerekçe: [Error] 140001014: Command not supported "db C4, E2, 69, F7"
+  gerekçe: [Error] 140001014: Command not supported "db C4, E2, 6A, F7"
+  gerekçe: [Error] 140001014: Command not supported "db C4, E2, 6B, F7"
+  gerekçe: [Error] 140001019: Command not supported "db C4, E2, E9, F7"
+
+resmî 3.9.4 GUI ölçümü (VMProtect.exe, wine+Xvfb, menü-tıklama): tablodan
+  duz              der=TAMAM (66.6 sn boyut=2057728 rc=42 yerel=0 (~0.12) → SANALLAŞTIRDI
+  movd_g2x         der=TAMAM (66.6 sn boyut=2066944 rc=42 yerel=20 (~0.00048) → YEREL TUTTU
+  movd_x2g         der=ÇALIŞILMADI boyut=— rc=— yerel=— → ÇALIŞILMADI
+  movd_rex         der=ÇALIŞILMADI boyut=— rc=— yerel=— → ÇALIŞILMADI
+  movq_g2x         der=ÇALIŞILMADI boyut=— rc=— yerel=— → ÇALIŞILMADI
+  movq_x2g         der=TAMAM (66.7 sn boyut=2085888 rc=42 yerel=13 (~1.9e-06) → YEREL TUTTU
+  movq_x2x         der=ÇALIŞILMADI boyut=— rc=— yerel=— → ÇALIŞILMADI
+  movq_m2x         der=TAMAM (66.6 sn boyut=1829888 rc=42 yerel=0 (~0.00043) → SANALLAŞTIRDI
+  movq_x2m         der=TAMAM (66.6 sn boyut=1835008 rc=42 yerel=0 (~0.00043) → SANALLAŞTIRDI
+  insertps         der=ÇALIŞILMADI boyut=— rc=— yerel=— → ÇALIŞILMADI
+  insertps_mem     der=ÇALIŞILMADI boyut=— rc=— yerel=— → ÇALIŞILMADI
+  extractps        der=ÇALIŞILMADI boyut=— rc=— yerel=— → ÇALIŞILMADI
+  extractps_mem    der=ÇALIŞILMADI boyut=— rc=— yerel=— → ÇALIŞILMADI
+  roundss_up       der=TAMAM (66.7 sn boyut=2067456 rc=42 yerel=1 (~7.3e-09) → YEREL TUTTU
+  roundss_floor    der=ÇALIŞILMADI boyut=— rc=— yerel=— → ÇALIŞILMADI
+  roundss_near     der=ÇALIŞILMADI boyut=— rc=— yerel=— → ÇALIŞILMADI
+  roundss_mem      der=ÇALIŞILMADI boyut=— rc=— yerel=— → ÇALIŞILMADI
+  roundsd_up       der=ÇALIŞILMADI boyut=— rc=— yerel=— → ÇALIŞILMADI
+  roundsd_near     der=ÇALIŞILMADI boyut=— rc=— yerel=— → ÇALIŞILMADI
+  roundsd_mem      der=ÇALIŞILMADI boyut=— rc=— yerel=— → ÇALIŞILMADI
+  vpblendd         der=TAMAM (66.6 sn boyut=2067968 rc=42 yerel=1 (~7.3e-09) → YEREL TUTTU
+  vpblendd_keep    der=ÇALIŞILMADI boyut=— rc=— yerel=— → ÇALIŞILMADI
+  vpsllvq          der=ÇALIŞILMADI boyut=— rc=— yerel=— → ÇALIŞILMADI
+  vpmaskmovd_load  der=ÇALIŞILMADI boyut=— rc=— yerel=— → ÇALIŞILMADI
+  vpmaskmovq_load  der=ÇALIŞILMADI boyut=— rc=— yerel=— → ÇALIŞILMADI
+  vpmaskmovd_store der=TAMAM (64.7 sn boyut=1780736 rc=42 yerel=1 (~6.3e-09) → YEREL TUTTU
+  vpmaskmovq_store der=ÇALIŞILMADI boyut=— rc=— yerel=— → ÇALIŞILMADI
+  shlx             der=TAMAM (64.7 sn boyut=1785344 rc=42 yerel=1 (~1.6e-06) → YEREL TUTTU
+  shlx64           der=ÇALIŞILMADI boyut=— rc=— yerel=— → ÇALIŞILMADI
+  shrx             der=ÇALIŞILMADI boyut=— rc=— yerel=— → ÇALIŞILMADI
+  sarx             der=ÇALIŞILMADI boyut=— rc=— yerel=— → ÇALIŞILMADI
+  rorx             der=TAMAM (68.6 sn boyut=2056704 rc=42 yerel=1 (~7.3e-09) → YEREL TUTTU
+  rorx64           der=ÇALIŞILMADI boyut=— rc=— yerel=— → ÇALIŞILMADI
+  shlx_mem         der=ÇALIŞILMADI boyut=— rc=— yerel=— → ÇALIŞILMADI
+  shrx_mem         der=ÇALIŞILMADI boyut=— rc=— yerel=— → ÇALIŞILMADI
+  sarx_mem         der=ÇALIŞILMADI boyut=— rc=— yerel=— → ÇALIŞILMADI
+  shrx64           der=ÇALIŞILMADI boyut=— rc=— yerel=— → ÇALIŞILMADI
+
+**Devam yordamı:** kur `v314_yeniden_kur.sh` → yama+derleme → `v314_disasm_karsilastir.py` +
+`v314_pe_test.py` → `v315_of_of394.py --sn 540` → `v315_zip_yenile.py` → `v316_kaydet.py` →
+`v315_commit.py` → `scripts/v313_mvp_reverse_push.py`.
+**Açık:** XMM'li diğer komutlar (128-bit işleyici zincirleri — V316 temeli hazır); resmî 3.9.4
+derleme tetikleyicisi; VEX kodlayıcı; anti-decompiler (3.7); .NET [DllExport] (3.7.4); Mach-O
+fixups (3.7.3); BZHI/ANDN/BLSR/SHA-NI/RDGSBASE vb.; Qt GUI; Windows derlemesi.
+<!-- V316_SON -->
+<!-- V316_SON -->
+<!-- V316_SON -->
