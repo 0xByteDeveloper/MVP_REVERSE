@@ -202,15 +202,9 @@ zinciri gerektirir); (3) 3.7 anti-decompiler mekanizması; (4) .NET [DllExport]/
 <!-- V314_BAS -->
 ## 36) V314 (2026-11-25) — YENİ KOMUT DESTEĞİ ÖLÇÜLDÜ: önceki sonuç GEÇERSİZ, yama eksik (geri çekme + gerçek durum)
 
-**Özet:** yeni komut desteği "tamamlandı" sanılıyordu; motorun kendi çözümleyicisine sorulunca ölçüldü: 12 tipin
-5'i doğru çözümleniyordu, 7'si yanlış/eksikti, VM tarafı (GetCommandInfo / CompileToVM / kodlayıcı) hiç yok.
-**V314b düzeltmesi (aynı oturum):** `scripts/v312_apply_yukseltme.py` §9 doğrulanmış haritayla yeniden yazıldı
-(87 nokta): SHLX/SHRX/SARX = `0F38.F7` (66/F2/F3, VEX.vvvv 2. kaynak → `of_Gv, of_Ev` + index 2), RORX =
-`0F3A.F0/F2`, VPBLENDD `0F38`'den `0F3A.02`'ye taşındı, VPMASKMOV **yazma 0x8E** eklendi, yüklemede VEX.W ile
-D/Q ayrımı, SARX/SHRX önek eşlemesi (pp: 10=F3, 11=F2) düzeltildi. Yeni durum: **28/28 yeni komut testi tanınıyor**
-(0 tanınmayan), fonksiyonlar ret'e ulaşıyor. Kalan: **sanallaştırma yok** (GetCommandInfo/CompileToVM/kodlayıcı),
-MOVD/MOVQ değişmedi, kozmetik `text()` "v" öneki + vvvv'nin xmm gösterimi. Ayrıntı: `download/V314_rapor.md`,
-kanıt: `download/v314_kanit/`.
+**Özet:** yeni komut desteği "tamamlandı" sanılıyordu; motorun kendi çözümleyicisine sorulunca ölçüldü: 12 tipin 5'i
+doğru çözümleniyor, 7'si yanlış/eksik, VM tarafı (GetCommandInfo / CompileToVM / kodlayıcı) hiç yok. MOVD/MOVQ
+için yama hiçbir şey değiştirmiyor. Ayrıntı: `download/V314_rapor.md`, kanıt: `download/v314_kanit/`.
 
 **Geri çekilen iddialar (§35):** "korunan SSE4.1/AVX2/BMI2 grupları wine'da temiz" geçersiz; MOVD/MOVQ
 sanallaştırma uygulanmadı.
@@ -223,19 +217,18 @@ sanallaştırma uygulanmadı.
 çözümleyici dökümü; taban/yamalı), `scripts/v314_disasm_karsilastir.py` (yan yana), `scripts/v314_bmi2_harita.py`
 (GNU as/objdump ile opcode haritası), `scripts/v314_pe_test.py` (matris), `scripts/v314_kaydet.py` (bu kayıt).
 
-**Çözümleyici durumu (V314b):** tanınıyor 28 / tanınmıyor 0 / aynı tip 9 test.
-12 tipin hepsi doğru tipte tanınıyor: INSERTPS(582), EXTRACTPS(581), ROUNDSS(586), ROUNDSD(587), VPSLLVQ(588),
-VPBLENDD(585), VPMASKMOVD(583)/Q(584) yükleme+yazma, SHLX(579), SHRX(578), SARX(577), RORX(580). Harita:
-`0F38.F7`: 66=SHLX F3=SARX F2=SHRX; `0F3A.F0/F2`=RORX; VPBLENDD `0F3A.02/66`; VPMASKMOV yükleme `0F38.8C`,
-yazma `0F38.8E`. MOVD/MOVQ ve düz denetim değişmedi (t=178).
+**Çözümleyici durumu (doğrusal şablon):** tanınıyor 16 / tanınmıyor 12 / aynı tip 9 test.
+Doğru: INSERTPS, EXTRACTPS, ROUNDSS, ROUNDSD, VPSLLVQ. Yanlış/eksik: SHLX, SHRX, SARX, RORX, VPBLENDD,
+VPMASKMOV yazma (+ VPMASKMOVQ W biti). Doğru harita: `0F38.F7`: 66=SHLX F3=SARX F2=SHRX; `0F3A.F0/F2`=RORX;
+VPBLENDD `0F3A.02/66`; VPMASKMOV yükleme `0F38.8C`, yazma `0F38.8E`.
 
 **Taban 3.5.1 davranışı:** bilinmeyen opcode → `db` ve fonksiyon o noktada kesilir (sonrası korumasız).
 
 matris_v2 (doğrusal şablon, sınanan komut artık fonksiyonun İÇİNDE): TAMAMLANDI
   ham (korumasız, wine'da rc=42 beklenir): TAMAM=37
-  derlenen ve TAMAM olan satırlarda (düz denetim hariç) sınanan baytların çıktıda AYNEN kalması (yerel geçit → sanallaştırma YOK): taban 16, yamalı 72 | tamamen kaybolan (yerel=0): taban 0, yamalı 0
+  derlenen ve TAMAM olan satırlarda (düz denetim hariç) sınanan baytların çıktıda AYNEN kalması (yerel geçit → sanallaştırma YOK): taban 16, yamalı 48 | tamamen kaybolan (yerel=0): taban 0, yamalı 0
   taban : mut/DERLENEMEDI:=28, mut/TAMAM=9, virt/DERLENEMEDI:=28, virt/TAMAM=9
-  yamalı: mut/TAMAM=37, virt/TAMAM=37
+  yamalı: mut/DERLENEMEDI:=12, mut/TAMAM=25, virt/DERLENEMEDI:=12, virt/TAMAM=25
   gerekçe: [Error] 14000100F: Command not supported "db C4, E3, 7B, F0"
   gerekçe: [Error] 140001011: Command not supported "db C4, E3, FB, F0"
   gerekçe: [Error] 140001014: Command not supported "db C4, E2, 69, F7"
@@ -261,4 +254,46 @@ Mach-O/.NET; anti-decompiler; Qt GUI derlemesi; docx/pdf rapor + görsel denetim
 <!-- V314_SON -->
 <!-- V314_SON -->
 <!-- V314_SON -->
-<!-- V314_SON -->
+
+<!-- V315_BAS -->
+<!-- V315_BAS -->
+## 37) V315 (2026-11-25) — BMI2 GPR SANALLAŞTIRMASI ÇALIŞIYOR: yerel=0 + rc=42 (ilk gerçek VM kazanıımı)
+
+**Özet:** SHLX/SHRX/SARX/RORX yamalı motorda VM bytecode'ına çevriliyor — 10/10 test yerel=0 (baytlar
+çıktıda yok), rc=42, 0 hata. V312–V314b'de bu komutlar yerel geçitle aynen duruyordu; VM tarafı
+(GetCommandInfo + beyaz liste + CompileToVM) bu kez yazıldı ve ölçüldü. Ayrıntı: `download/V315_rapor.md`,
+kanıt: `download/v315_kanit/`.
+
+**Yama (§11, 3 nokta):** VEX.vvvv → gerçek 3. operand (+ text() kozmetiği), GetCommandInfo (bayrak yazılmaz),
+beyaz liste girişi, CompileToVM mevcut oplarla (cmShl/cmShr/cmShrd; RORX sabit-sayı ayrıştırması).
+YENİ VM opcode'u gerekmedi. Wine düzenek hatası da bulundu: 32-bit zlib1.dll + "not a builtin" reddi →
+64-bit zlib prefix system32'ye (v312_wine.sh kalıcı yaması).
+
+matris (37 test, taban+yamalı × mut+virt): TAMAMLANDI
+  ham (korumasız, rc=42 beklenir): TAMAM=37
+  TAMAM satırlarında (düz denetim hariç): yerel=0 (GERÇEK VM): taban 0, yamalı 10 | yerel>0 (kapı): taban 15, yamalı 61
+  yamalı/virt yerel=0 BMI2 testleri: 10/10 (rorx, rorx64, sarx, sarx_mem, shlx, shlx64, shlx_mem, shrx, shrx64, shrx_mem)
+  taban : mut/DERLENEMEDI:=28, mut/TAMAM=9, virt/BOZUK=1, virt/DERLENEMEDI:=28, virt/TAMAM=8
+  yamalı: mut/TAMAM=37, virt/BOZUK=1, virt/TAMAM=36
+  gerekçe: [Error] 14000100F: Command not supported "db C4, E3, 7B, F0"
+  gerekçe: [Error] 140001011: Command not supported "db C4, E3, FB, F0"
+  gerekçe: [Error] 140001014: Command not supported "db C4, E2, 69, F7"
+  gerekçe: [Error] 140001014: Command not supported "db C4, E2, 6A, F7"
+  gerekçe: [Error] 140001014: Command not supported "db C4, E2, 6B, F7"
+  gerekçe: [Error] 140001019: Command not supported "db C4, E2, E9, F7"
+
+resmî 3.9.4 GUI ölçümü (VMProtect.exe, wine+Xvfb+F9): 4 test kaydı
+  duz              ÇIKTI OLUŞMADI
+  movd_g2x         ÇIKTI OLUŞMADI
+  roundss_up       ÇIKTI OLUŞMADI
+  shlx             ÇIKTI OLUŞMADI
+
+**Devam yordamı:** kur `v314_yeniden_kur.sh` → yama+derleme → `v314_disasm_karsilastir.py` +
+`v314_pe_test.py` → `v315_of_of394.py --sn 540` → `v315_kaydet.py` → `v315_commit.py` →
+`scripts/v313_mvp_reverse_push.py`. Wine izinleri: `chmod +x scripts/v312_wine.sh` (git modunu kaybediyor).
+**Açık:** XMM'li komutlar (MOVD/MOVQ = 3.7.3 kalemi) kapıda; VEX kodlayıcı; anti-decompiler (3.7);
+.NET [DllExport] (3.7.4); Mach-O fixups (3.7.3); BZHI/ANDN/BLSR/SHA-NI/RDGSBASE vb. çözümleme; Qt GUI;
+Windows derlemesi (araç zinciri yok); docx/pdf rapor.
+<!-- V315_SON -->
+<!-- V315_SON -->
+<!-- V315_SON -->
