@@ -203,7 +203,7 @@ zinciri gerektirir); (3) 3.7 anti-decompiler mekanizması; (4) .NET [DllExport]/
 ## 36) V314 (2026-11-25) — YENİ KOMUT DESTEĞİ ÖLÇÜLDÜ: önceki sonuç GEÇERSİZ, yama eksik (geri çekme + gerçek durum)
 
 **Özet:** yeni komut desteği "tamamlandı" sanılıyordu; motorun kendi çözümleyicisine sorulunca ölçüldü: 12 tipin 5'i
-doğru çözümleniyor, 6'sı yanlış/eksik, VM tarafı (GetCommandInfo / CompileToVM / kodlayıcı) hiç yok. MOVD/MOVQ
+doğru çözümleniyor, 7'si yanlış/eksik, VM tarafı (GetCommandInfo / CompileToVM / kodlayıcı) hiç yok. MOVD/MOVQ
 için yama hiçbir şey değiştirmiyor. Ayrıntı: `download/V314_rapor.md`, kanıt: `download/v314_kanit/`.
 
 **Geri çekilen iddialar (§35):** "korunan SSE4.1/AVX2/BMI2 grupları wine'da temiz" geçersiz; MOVD/MOVQ
@@ -224,21 +224,30 @@ VPBLENDD `0F3A.02/66`; VPMASKMOV yükleme `0F38.8C`, yazma `0F38.8E`.
 
 **Taban 3.5.1 davranışı:** bilinmeyen opcode → `db` ve fonksiyon o noktada kesilir (sonrası korumasız).
 
-matris_v2 (doğrusal şablon, sınanan komut artık fonksiyonun İÇİNDE): KISMÎ (arka planda sürüyordu)
-  taban : mut/?=9, mut/[Error]=3, virt/?=9, virt/[Error]=3
-  yamalı: mut/?=12, virt/?=11
-  gerekçe: [Error] 14000101D: Command not supported "db 66, 0F, 3A, 21"
-  gerekçe: [Error] 140001025: Command not supported "db 66, 41, 0F, 3A, 17"
-  gerekçe: [Error] 140001028: Command not supported "db 66, 0F, 3A, 21"
+matris_v2 (doğrusal şablon, sınanan komut artık fonksiyonun İÇİNDE): TAMAMLANDI
+  ham (korumasız, wine'da rc=42 beklenir): TAMAM=37
+  'TAMAM' ama yerel=1 (sınanan baytlar çıktıda aynen var; yerel geçit, sanallaştırma YOK): 62 satır
+  taban : mut/DERLENEMEDI:=28, mut/TAMAM=9, virt/DERLENEMEDI:=28, virt/TAMAM=9
+  yamalı: mut/DERLENEMEDI:=12, mut/TAMAM=25, virt/DERLENEMEDI:=12, virt/TAMAM=25
+  gerekçe: [Error] 14000100F: Command not supported "db C4, E3, 7B, F0"
+  gerekçe: [Error] 140001011: Command not supported "db C4, E3, FB, F0"
+  gerekçe: [Error] 140001014: Command not supported "db C4, E2, 69, F7"
+  gerekçe: [Error] 140001014: Command not supported "db C4, E2, 6A, F7"
+  gerekçe: [Error] 140001014: Command not supported "db C4, E2, 6B, F7"
+  gerekçe: [Error] 140001019: Command not supported "db C4, E2, E9, F7"
+  gerekçe: [Error] 140001019: Command not supported "db C4, E2, EB, F7"
+  gerekçe: [Error] 14000101A: Command not supported "db 66, 0F, 3A, 0A"
 
 **Devam yordamı:** (1) `work/v312/src_patched` yoksa `python3 scripts/v312_prep_trees.py` + `v312_apply_yukseltme.py`;
 motorlar `scripts/v312_build_linux.py` (--src src_base → build_base, --src src_patched → build_patched);
 (2) yamayı düzelt: `scripts/v312_apply_yukseltme.py` §9 (satır 178–359) tablo + kodlayıcı + GetCommandInfo + CompileToVM;
 (3) doğrula: `python3 -I scripts/v314_disasm_karsilastir.py` → `work/v314/disasm/karsilastirma.txt`,
 `python3 -I scripts/v314_pe_test.py` → `work/v314/pe_test/sonuc.json`; (4) kaydet: `v314_kaydet.py`, commit:
-`scripts/v313_commit.py`, günlük: `scripts/v313_mvp_reverse_push.py`.
+`scripts/v314_commit_sinirli.py` (geçici indeks; `v313_commit.py` KULLANMA — tüm ağacı sahneye alıyor ve
+kimlik deseni taşıyan eski dosyalar yüzünden duruyor), günlük: `scripts/v313_mvp_reverse_push.py`.
 **Açık:** tablo düzeltmesi; kodlayıcı/VM tarafı; MOVD/MOVQ sanallaştırma; resmî 3.9.4 GUI karşılaştırması;
 Mach-O/.NET; anti-decompiler; Qt GUI derlemesi; docx/pdf rapor + görsel denetim.
+<!-- V314_SON -->
 <!-- V314_SON -->
 <!-- V314_SON -->
 <!-- V314_SON -->
