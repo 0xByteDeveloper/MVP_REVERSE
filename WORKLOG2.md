@@ -252,3 +252,4 @@ Mach-O/.NET; anti-decompiler; Qt GUI derlemesi; docx/pdf rapor + görsel denetim
 <!-- V314_SON -->
 <!-- V314_SON -->
 <!-- V314_SON -->
+<!-- V314_SON -->
