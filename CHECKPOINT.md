@@ -20,3 +20,13 @@ Kanıt/rapor: MyRepo main → download/V317_packer_finder_rapor.html, download/V
 Yeniden kurma: v314_yeniden_kur.sh → (101 nokta) → v312_build_linux.py → scripts/v317_test64_coklu.py → scripts/v317_html_rapor.py → v317_kaydet.py.
 Sıradaki iş: (1) çalışma-zamanı sarmalayıcısını 3.9.4 boyut profiline büyütmek (216 → 2048 B, dist hedefi), (2) XMM'li diğer komutlar (128-bit zincirler), (3) VEX kodlayıcı, (4) anti-decompiler/.NET/Mach-O, (5) BZHI/ANDN/BLSR/SHA-NI/RDGSBASE.
 <!-- V317_SON -->
+
+<!-- V318_BAS -->
+# V318 KONTROL NOKTASI — 2026-11-25
+
+Görev: VMProtect 3.5.1 → 3.9.4 yükseltme (scripts/v312_apply_yukseltme.py, 102 nokta).
+V318: tam-ayarlı derlemeler (Options bitleri ilk kez açık; tam-ayar 6,87 MB rc=0, 3 .vmp bölümü; pack 4,88 MB rc=0) + x1/x2/x3 cevapları + virt-saflık düzeltmesi (ultra≡virt ve pack×vi≥2 çöküşü ikisi de çözüldü).
+Kanıt/rapor: MyRepo main → download/V318_packer_finder_rapor.html, download/V318_rapor.md, download/v318_kanit/ ; WORKLOG2.md §40.
+Yeniden kurma: v314_yeniden_kur.sh → (102 nokta) → v312_build_linux.py → scripts/v318_olcum.py → scripts/v318_html_rapor.py → v318_kaydet.py.
+Sıradaki iş: (1) sarmalayıcı donanımını 3.9.4 boyut profiline büyütmek (216 → 2048 B), (2) XMM'li diğer komutlar, (3) VEX kodlayıcı, (4) anti-decompiler/.NET/Mach-O, (5) BZHI/ANDN/BLSR/SHA-NI/RDGSBASE.
+<!-- V318_SON -->

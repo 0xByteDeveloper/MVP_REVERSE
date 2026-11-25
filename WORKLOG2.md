@@ -410,3 +410,35 @@ scripts/v313_mvp_reverse_push.py.
 anti-decompiler; .NET; Mach-O; BZHI/ANDN/BLSR/SHA-NI; Qt GUI.
 <!-- V317_SON -->
 <!-- V317_SON -->
+
+<!-- V318_BAS -->
+<!-- V318_BAS -->
+## 40) V318 (2026-11-25) — TAM-AYARLI DERLEMELER + x1/x2/x3 CEVAPLARI + VİRT-SAFLIK (102. nokta)
+
+**Özet:** Kullanıcının 3 sorusu kaynak+ölçümle cevaplandı (fonksiyon Complexity=mutasyon yoğunluğu
+ölçeği ✓; Instances=N tam VM kopyası, varsayılan 10 ✓; Options bitleri ilk kez açık ölçüldü ✓).
+V318 düzeltmesi (intel.cc ctVirtualization — V313'ün complexity-gated ön-mutasyonu kaldırıldı):
+virt ≠ ultra (bayt-birebir eşitlik gitti) VE pack×vi≥2×c≥50 çöküşü çözüldü (taban motor atıfı +
+izl2 koşuları: c50-vi10/c100-vi2/c100-vi5/c100-vi10 pack hepsi rc=0). Tam-ayar: 6,87 MB rc=0,
+3 .vmp bölümü; pack: 4,88 MB rc=0. Dedektör boyut-duyarlı — ham bölüm tabloları raporda bağımsız.
+
+ölçüm: 11 yapılandırma (Test_64.exe, 3 veya 13 fonksiyon)
+  ref_virt_c100_3f       virt  opts=0x0     -vc 100 -rs 1          boyut=1698816   wine_rc=0    → Ultimate 3.8.4 [Ultimate] dist=1110944 guv
+  vi1_virt_c100_3f       virt  opts=0x0     -vc 100 -rs 1 -vi 1    boyut=195072    wine_rc=0    → Ultimate 3.8.4 [Ultimate] dist=110944 guve
+  vi10_virt_c100_3f      virt  opts=0x0     -vc 100 -rs 1 -vi 10   boyut=1698816   wine_rc=0    → Ultimate 3.8.4 [Ultimate] dist=1110944 guv
+  vi3_virt_c100_3f       virt  opts=0x0     -vc 100 -rs 1 -vi 3    boyut=526848    wine_rc=0    → Lite 3.8.7 [Lite] dist=297952 guven=CIFT-A
+  fc100_virt_3f          virt  opts=0x0     -vc 100 -rs 1 fc=True  boyut=1698816   wine_rc=0    → Ultimate 3.8.4 [Ultimate] dist=1110944 guv
+  tum13_virt_c100        virt  opts=0x0     -vc 100 -rs 1          boyut=1706496   wine_rc=0    → Ultimate 3.8.4 [Ultimate] dist=1095288 guv
+  tum13_ultra_c100       ultra opts=0x0     -vc 100 -rs 1          boyut=1785856   wine_rc=0    → Ultimate 3.8.4 [Ultimate] dist=936552 guve
+  pack_yalniz_ultra      ultra opts=0x100   -vc 100 -rs 1          boyut=4881920   wine_rc=0    → Ultimate 3.6.0 [Ultimate] dist=1616880 guv
+  tum_ayar_full          ultra opts=0x513c8 -vc 100 -rs 1          boyut=6871552   wine_rc=0    → Lite 3.8.7 [Lite] dist=117260 guven=ORTA (
+  tum_ayar_full_vi1      ultra opts=0x513c8 -vc 100 -rs 1 -vi 1    boyut=2905600   wine_rc=0    → Ultimate 3.6.0 [Ultimate] dist=1090640 guv
+  tum_ayar_full_arti     ultra opts=0x71fc8 -vc 100 -rs 1          boyut=7108096   wine_rc=222  → Lite 3.10.4 [Lite] dist=204444 guven=ORTA 
+
+**Devam yordamı:** v314_yeniden_kur.sh → v312_apply_yukseltme.py (102 nokta) → v312_build_linux.py →
+scripts/v318_olcum.py → scripts/v318_html_rapor.py → v318_kaydet.py → v315_commit.py →
+scripts/v313_mvp_reverse_push.py.
+**Açık:** sarmalayıcı 216→2048 B; XMM zincirleri; VEX; anti-decompiler; .NET; Mach-O; BMI/SHA-NI; Qt GUI.
+<!-- V318_SON -->
+<!-- V318_SON -->
+<!-- V318_SON -->
