@@ -197,3 +197,48 @@ zip'i, rapor). work/ git dışıdır; kaybolursa CHECKPOINT'teki betik zinciriyl
 **Sonraki adımlar:** (1) MOVD/MOVQ VM sanallaştırma (xmm modeli); (2) Qt GUI derlemesi (araç
 zinciri gerektirir); (3) 3.7 anti-decompiler mekanizması; (4) .NET [DllExport]/Mach-O.
 <!-- V312-KAPANIS-SON -->
+
+<!-- V314_BAS -->
+<!-- V314_BAS -->
+## 36) V314 (2026-11-25) — YENİ KOMUT DESTEĞİ ÖLÇÜLDÜ: önceki sonuç GEÇERSİZ, yama eksik (geri çekme + gerçek durum)
+
+**Özet:** yeni komut desteği "tamamlandı" sanılıyordu; motorun kendi çözümleyicisine sorulunca ölçüldü: 12 tipin 5'i
+doğru çözümleniyor, 6'sı yanlış/eksik, VM tarafı (GetCommandInfo / CompileToVM / kodlayıcı) hiç yok. MOVD/MOVQ
+için yama hiçbir şey değiştirmiyor. Ayrıntı: `download/V314_rapor.md`, kanıt: `download/v314_kanit/`.
+
+**Geri çekilen iddialar (§35):** "korunan SSE4.1/AVX2/BMI2 grupları wine'da temiz" geçersiz; MOVD/MOVQ
+sanallaştırma uygulanmadı.
+
+**Düzenek hataları:** (A) elle bayt kodlamaları yanlıştı → GNU as (`v314_pe_uret.py`); (B) şablondaki
+`movabs r11, body; jmp r11` yüzünden motor fonksiyonu 6 komutta bitiriyor, sınanan komut koruma dışında kalıyordu →
+`matris_v1` 185/185 geçersiz. Şablon doğrusal yapıldı; denetim eklendi ("fonksiyon ret'e ulaşıyor mu").
+
+**Ölçüm araçları:** `scripts/v314_disasm_arac.cc` + `v314_disasm_arac.py` (motorun core nesnelerine bağlanan
+çözümleyici dökümü; taban/yamalı), `scripts/v314_disasm_karsilastir.py` (yan yana), `scripts/v314_bmi2_harita.py`
+(GNU as/objdump ile opcode haritası), `scripts/v314_pe_test.py` (matris), `scripts/v314_kaydet.py` (bu kayıt).
+
+**Çözümleyici durumu (doğrusal şablon):** tanınıyor 16 / tanınmıyor 12 / aynı tip 9 test.
+Doğru: INSERTPS, EXTRACTPS, ROUNDSS, ROUNDSD, VPSLLVQ. Yanlış/eksik: SHLX, SHRX, SARX, RORX, VPBLENDD,
+VPMASKMOV yazma (+ VPMASKMOVQ W biti). Doğru harita: `0F38.F7`: 66=SHLX F3=SARX F2=SHRX; `0F3A.F0/F2`=RORX;
+VPBLENDD `0F3A.02/66`; VPMASKMOV yükleme `0F38.8C`, yazma `0F38.8E`.
+
+**Taban 3.5.1 davranışı:** bilinmeyen opcode → `db` ve fonksiyon o noktada kesilir (sonrası korumasız).
+
+matris_v2 (doğrusal şablon, sınanan komut artık fonksiyonun İÇİNDE): KISMÎ (arka planda sürüyordu)
+  taban : mut/?=9, mut/[Error]=3, virt/?=9, virt/[Error]=3
+  yamalı: mut/?=12, virt/?=11
+  gerekçe: [Error] 14000101D: Command not supported "db 66, 0F, 3A, 21"
+  gerekçe: [Error] 140001025: Command not supported "db 66, 41, 0F, 3A, 17"
+  gerekçe: [Error] 140001028: Command not supported "db 66, 0F, 3A, 21"
+
+**Devam yordamı:** (1) `work/v312/src_patched` yoksa `python3 scripts/v312_prep_trees.py` + `v312_apply_yukseltme.py`;
+motorlar `scripts/v312_build_linux.py` (--src src_base → build_base, --src src_patched → build_patched);
+(2) yamayı düzelt: `scripts/v312_apply_yukseltme.py` §9 (satır 178–359) tablo + kodlayıcı + GetCommandInfo + CompileToVM;
+(3) doğrula: `python3 -I scripts/v314_disasm_karsilastir.py` → `work/v314/disasm/karsilastirma.txt`,
+`python3 -I scripts/v314_pe_test.py` → `work/v314/pe_test/sonuc.json`; (4) kaydet: `v314_kaydet.py`, commit:
+`scripts/v313_commit.py`, günlük: `scripts/v313_mvp_reverse_push.py`.
+**Açık:** tablo düzeltmesi; kodlayıcı/VM tarafı; MOVD/MOVQ sanallaştırma; resmî 3.9.4 GUI karşılaştırması;
+Mach-O/.NET; anti-decompiler; Qt GUI derlemesi; docx/pdf rapor + görsel denetim.
+<!-- V314_SON -->
+<!-- V314_SON -->
+<!-- V314_SON -->

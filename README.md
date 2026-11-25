@@ -1,56 +1,25 @@
-# MVP_REVERSE — Çalışma Günlüğü ve Kontrol Noktaları
+# MVP_REVERSE — VMProtect çalışma günlüğü ve kontrol noktaları
 
-VMProtect 3.5.1 → 3.9.4 tersine mühendislik ve yükseltme çalışmasının **kalıcı çalışma günlüğüdür (WORKLOG)**.
-Amaç: çalışma ortamı (sandbox) sıfırlansa, bağlam kaybolsa ya da dosyalar kaybolsa bile işin **kaldığı yerden**
-devam edebilmesidir. Bu depoya yalnız günlük ve kontrol noktası bilgisi konur; kaynak kod, ikili dosya ve
-kanıtlar özel depoda durur.
+Bu depo, VMProtect sürümleri üzerinde yürütülen tersine mühendislik / kaynak yükseltme çalışmasının
+**günlüğünü ve kontrol noktasını** saklar. Amaç: çalışma ortamı sıfırlansa bile işin nerede kaldığı
+kaybolmasın. Kod ve kanıt dosyaları burada DEĞİL; ikili dosyalar ve büyük kanıt dizinleri MyRepo
+deposundadır (adres WORKLOG / CHECKPOINT içinde).
 
-## Yeni bir oturumda okuma sırası
+## İçerik
 
-1. `CHECKPOINT.md` — en son durum (commit numaraları, tamamlananlar, sıradaki işler, açık riskler).
-2. `WORKLOG2.md` — son bölüm aşağıdadır (`## 34) V313`); her bölüm "istek → engeller → tamamlanan → devam notu" biçimindedir.
-3. `WORKLOG.md` — V1–V311 arası ayrıntılı geçmiş (700 satır; başlıklar `## N) V<no> (tarih, turn)`).
+| Dosya | Ne var |
+|---|---|
+| `CHECKPOINT.md` | En güncel durum: ne bitti, ne açık, kaldığı yerden nasıl devam edilir |
+| `WORKLOG.md` | Ana çalışma günlüğü (V300'den itibaren, sürüm sürüm) |
+| `WORKLOG2.md` | V312–V314: 3.5.1 → 3.9.4 özellik farkı, yükseltme yaması, ölçüm düzeltmeleri |
 
-## Depolar
+## Güncel durum (2026-11-25, V314)
 
-| Depo | Görünürlük | İçerik |
-|---|---|---|
-| `0xByteDeveloper/MyRepo` | özel | Kaynak kod, betikler, teslim dosyaları, tam git geçmişi (V313 sonrası 85 commit) |
-| `0xByteDeveloper/MVP_REVERSE` | herkese açık | Bu çalışma günlüğü ve kontrol noktaları |
-| `0xByteDeveloper/MVP_VMP_ALGORTIHM` | herkese açık | 3.5.1 ↔ 3.9.4 özellik farkı (JSON + HTML) ve yükseltme yaması |
-| `0xByteDeveloper/UniversalMVPUIAlgorithm_QT` | — | Qt arayüz analizi aracı (V310'da güncellendi) |
+3.5.1 → 3.9.4 yükseltme yamasının yeni komut desteği (SSE4.1 / AVX2 / BMI2 / MOVD-MOVQ) motorun kendi
+çözümleyicisiyle ölçüldü: **eksik**. Daha önce "tamamlandı" sanılan sonuç bir test düzeneği hatasından
+geliyordu ve geri çekildi. Ayrıntı ve doğrulanmış opcode haritası: `WORKLOG2.md` §36.
 
-Özel depoya erişim, depo sahibinin kişisel erişim anahtarı (PAT) ister. **Anahtar bu depoda hiçbir zaman
-saklanmaz, yazılmaz, alıntılanmaz.**
+## Güvenlik
 
-## Sandbox sıfırlandıktan sonra güvenli hizalama
-
-```bash
-cd /home/z/my-project
-git fetch origin                 # origin = kimlik bilgisi içermeyen HTTPS adresi
-git status --short | grep -c '^ D'   # 0 olmalı; değilse DUR (aşağıdaki kural 2)
-git merge --ff-only origin/main  # hızlı ileri değilse durulur; birleşme çakışması çözülmeden commit atılmaz
-```
-
-Eski sürüm dosyalarına bakılacaksa (kısmi klon, `blob:none`): `git show origin/tarih/<dal>:<yol>` komutu
-kimlik doğrulaması ister. Toplu çekme için `scripts/v313_yerel_hizala.py` (özel depoda) kullanılır.
-
-## Zorunlu güvenlik kuralları (24.11.2026 kaybından sonra)
-
-1. **Yasak:** `git push --force`, `git reset --hard`, mevcut deponun üstüne `git init`, `git clean`,
-   kullanıcı dosyasının üstüne `git checkout -- <dosya>`.
-2. `git add -A` (ya da `git commit -a`) **öncesinde** `git status --short | grep -c '^ D'` kontrol edilir.
-   Sonuç 0 değilse silme commit'lenmez: silinmenin nedeni sandbox geri dönüşümüyse önce dosyalar geri getirilir.
-3. Kontrol noktası = hızlı ileri (fast-forward) push. Push reddedilirse durulur; önce çekilir, sonra tekrar denir.
-   Geçmiş değişecekse (ör. büyük dosya ya da sızan anahtar temizliği) eski uç önce `tarih/<tarih>` dalına sabitlenir.
-4. Kimlik bilgisi (PAT, JWT, `.env`, `.pem`, çerez) hiçbir depoya konmaz. Anahtar yalnız ortam değişkeninden
-   okunur; komut satırına, günlüğe, rapora, hata mesajına yazılmaz.
-5. Her kritik ara noktada: `WORKLOG2.md`'ye bölüm eklenir + `CHECKPOINT.md` güncellenir + bu depoya push edilir.
-
-## 24.11.2026 — Özet
-
-Özel deponun ana dalında yalnız 8 commit kalmıştı; 81 commit'ten 60'ı hiçbir daldan erişilemez durumdaydı ve
-`livestep.cpp`, `livestep.py` gibi kişisel proje dosyaları ana daldan düşmüştü. V313'te geçmiş geri bağlandı
-(main 8 → 83 commit, force kullanılmadan), 4559 dosya (1367,6 MB) eski yerine kondu ve kök neden
-(sandbox geri dönüşümü + `git add -A` + `reset --hard`/force push alışkanlığı) günlüğe yazıldı.
-Ayrıntı: `WORKLOG2.md` bölüm 34 ve özel depodaki `download/V313_*` raporları.
+Bu depo herkese açıktır; kimlik bilgisi, belirteç veya kişisel veri içermez. Gönderim öncesi her dosya
+desen taramasından geçer; eşleşme bulunursa gönderim durdurulur.
