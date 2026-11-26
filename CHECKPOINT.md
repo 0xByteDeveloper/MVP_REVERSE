@@ -31,3 +31,15 @@ Aldatmaca-farkı: 0x1400CD444 iç köprüsü + adc-carry (0x140231567) = anti-em
 SIRADA: 51 komutun iz-farklarından talimat semantiği → 155 satırlık liste; varyantlar.
 Scriptler: v323_tamiz.py (koşu), v323_natif.py (oracle). Kanıt: download/v323_kanit/.
 <!-- V323_SON -->
+
+# V325 KONTROL NOKTASI — 2026-11-26
+Görevler: (x1.proje1) TersineCevirici C++ — TAMAM: derlendi, 42/42+12/12 testleri geçti,
+push cdca0ee. (x1.proje2) YONTEM.md + kaynak arşivi — TAMAM: vmp_yukseltme_3.9.4 içinde.
+(xGODPLUS) 5/5 yön BİREBİR; c100/ultra/ultra_c100 iç-köprüleri kırıldı (12/12 olay);
+ALL=Pack statik çözülemedi (çalışma-anı gerekir — dürüst sınır).
+SIRADA: (a) 51/8/859/23 komut dizilerinin işleyici-semantik etiketlenmesi (statik
+pcode çıkarımını %60→%100'e taşıyacak), (b) 5 yön × 4 dosya tam matris, (c) ALL için
+unpacker-stub emülasyonu veya gerçek Windows dökümü, (d) 3.5.1 kaynağına YÖNTEM §7
+eşlemesinin uygulanması (mutation.cpp junk aileleri, lea-füzyon, vmenter sadeleşmesi).
+Scriptler: v325_yonmatrisi.py, v325_kopru.py, v325_rapor.py + TersineCevirici (C++).
+

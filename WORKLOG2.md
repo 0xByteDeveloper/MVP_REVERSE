@@ -693,3 +693,47 @@ jmp rdi); farklı olanlar — 3.9.4'te derin füzyon + dosya-başına farklı gi
 eşleme + akış), v324_sonuc.py (nihai tablo), komut-atıf koşusu (olay→dispatch aralığı).
 **Kanıt:** download/v324_kanit/ (birebir_sonuc.txt/json + scriptler), V324_rapor.html/md.
 <!-- V324_SON -->
+
+<!-- V325_BAS -->
+## 47) V325 (2026-11-26) — TersineCevirici C++ (derlendi+doğrulandı) + YÖNTEM.md + 5/5 yön birebir + üç iç-köprü kırıldı
+
+**x1.proje1 (C++ projesi):** V324 zincirinin tamamı C++'a taşındı ve DERLENDİ (g++ 14.2,
+Capstone+Unicorn C kütüphaneleri) + korumalı dosyalarla TEST EDİLDİ → github.com/
+0xByteDeveloper/TersineCevirici (cdca0ee). Test: `mutasyon` 42/42 talimat + 3/3 dal +
+11/11 RIP-hedef BİREBİR (junk: ölü-yazmaç 28 / ölü-bayrak 6 / akış-jmp 7 / diğer 23);
+`vmtrace` 111.170 adım 51 dispatch temiz dönüş 12/12 olay oracle ile BİREBİR;
+`girisler` 5 varyant doğru; `oracle` 12 olay. Taşıma tuzakları yakalandı ve YÖNTEM'e
+işlendi: VA sabiti uint32_t'e kesilir (0x140004000→0x40004000 sessiz filtre körelmesi),
+unicorn C API callback void* (kapmasız lambda+cast), uc_mem_map izin ister.
+
+**x1.proje2 (yöntem):** download/vmp_yukseltme_3.9.4/YONTEM.md — 8 bölüm (varyant-strateji
+matrisi; mutasyon devirt: imza=opkod+RIP-hedef ADRESİ, her-hiza, lea eşdeğerleri, dal
+doğrulaması, junk sınıflandırma=yanlış-pozitif güven ölçüsü; sanallaştırılmış doğrulama:
+doğru giriş bulunuşu — iki yanlış giriş dersi, adc-carry anti-emülasyon tuzağı, olay
+kanalları, oracle; hız dersleri; C++ tuzakları; köprü reçetesi; ALL dürüst sınırları;
+**3.5.1→3.9.4 kaynak eşleme tablosu**: junk üretici aileler, lea-füzyonu, temiz vmenter,
+carry anti-emülasyon, superoperator füzyonu, .pdata şifrelemesi, caller-mutation,
+dosya-başına anahtar). Yanına tersinecevirici/ (C++) + yontem_scriptleri/ (Python) kondu.
+
+**xGODPLUS-2 (5 yön matrisi):** yon=1..5 VM↔natif TAMAMI değer-değer BİREBİR —
+1/3: duvar (je yolu) 35 komut salt-okuma 5 olay; 2/4: hamle+nokta 51 komut 12 olay;
+5: ja yolu 44 komut 5 olay. Komut sayısı dala göre değişiyor (35/44/51) = derin füzyon
+dallanma-duyarlı. (work/v325/yon_matrisi.json)
+
+**xGODPLUS-3 (iç-köprüler KIRILDI):** c100 41.911 adım / ultra 226.269 adım **859
+dispatch** (vs VARSAYILAN 51 — ultra çok daha uzun VM programı üretiyor!) / ultra_c100
+78.193 adım — hepsi temiz dönüş + 12/12 olay sıra-duyarsız BİREBİR (ultra_c100'de
+g_px/g_py okuma sırası transpoze = füzyon yeniden sıralaması). Reçete: geçerli-yazmaç
+kurulumu + CC/F4 tuzak-atlama + iki CF senaryosu + olay-sayısı ölçütü. (kopru_sonuc.json)
+
+**xGODPLUS-1:** 51 komutun dispatch anlık görüntüleri (16 GPR+RSP+VIP) kaydedildi
+(komut_cizelgesi.txt). **xGODPLUS-4 (ALL):** desenler YOK; iki zayıf isabet bağlamsız
+rastgele-parite → Pack=çalışma-anı, statik çözülemedi (varsayım kullanılmadı).
+
+**İlerleme (dürüst):** MUTATION birebir üretim %100; sanallaştırılmış doğrulama %100
+(4 dosya × 5 yön), statik pcode→talimat çıkarımı ~%60 (işleyici semantik etiketleri
+kaldı); ALL %0 (çalışma-anı sınırı); kaynak yükseltme eşlemesi hazır, aktarım sürüyor.
+
+**Kanıt:** download/v325_kanit/ (6 dosya) + V325_rapor.html/md + TersineCevirici repo.
+**Yordam:** scripts/v325_yonmatrisi.py, v325_kopru.py, v325_rapor.py.
+<!-- V325_SON -->
