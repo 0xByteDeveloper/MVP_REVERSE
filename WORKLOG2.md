@@ -660,3 +660,36 @@ v323_natif.py (oracle). **Açık:** talimat-düzeyi semantik iz (konuk GPR'ler h
 geçici — izden süzülecek), varyant koşuları, birebir 155 satırlık liste üretimi.
 <!-- V323_SON -->
 <!-- V323_SON -->
+
+<!-- V324_BAS -->
+## 46) V324 (2026-11-26) — MovePlayer disassembly BİREBİR ELDE EDİLDİ: MUTATION 42/42 + sanallaştırılmış komut-atfı
+
+**Hedef tamamlandı (kullanıcının "elde edene kadar durma" talebi):** Test_64_mutation.vmp.exe
+gövdesinden (0x1400062EB, 1376 B) kullanıcının 42 talimatlık MovePlayer listesi BİREBİR
+çıkarıldı: her talimatın opkod'u + RIP-göreli hedef ADRESİ (dx 0x140003230 / dy 0x140003240 /
+g_px 0x140004008 / g_py 0x14000400C / g_maze 0x140004010 / g_score 0x140004140 /
+g_dots 0x140004144 / WrapPos 0x140001470 ×2) + 3 dal hedefi (ja→+2C karşılığı add ecx,[g_px];
+je/jne→+92 karşılığı xor eax,eax) doğrulandı; add rcx,rdx = lea rcx,[rcx+rdx] (488d0c11)
+derleyici eşdeğeri. Junk ayıklama: ~35 ölü blok (%55), hepsi sonuç-etkisiz (ölü-yazmaç:
+dil/dx/r12w/r14b/r15w/r13b; ölü-bayrak: clc/stc/setl/sahf; jmp +N akış-junk'ı).
+
+**Sanallaştırılmış (VARSAYILAN) komut-atfı:** V323 doğru-koşusuna olay→komut numarası eklendi:
+12/12 konuk olayı kullanıcı talimatlarına atfedildi — komut#14 = dx+dy İKİ tablo okuma TEK
+komutta, komut#37 = add [g_score] oku+yaz, komut#38 = maze-yaz + g_dots oku+yaz ÜÇ işlem TEK
+komutta (3.9.4 derin işleyici füzyonunun doğrudan kanıtı).
+
+**Varyant giriş envanteri:** VARSAYILAN jmp 0x14007602F (V323'te çözüldü) | MUTATION gövde
+yerinde (42/42 çıkarıldı) | c100 = 0x140001530 (push anahtar; pushfq; anahtar-türetme;
+jae 0x1400014C7 — junk-tuzaklı giriş, iç-köprü sıradaki) | ultra = 0x140001520 →
+0x1400094DF (pushfq; push r9; and/xor r9-blokları — şifreli iç-köprü) | ultra_c100 =
+0x140094163 (push r9; pushfq; movabs 0x8923f22c5c27a6b1; call 0x140093711) | ALL = 51MB,
+çağrı bölgesi dahil TAM-BOŞALTILMIŞ (0x1684 = sıfırlar; statik imkânsız).
+
+**vxcall (3.8.1) karşılaştırması:** örtüşenler — VIP geriye-yürür, rolling-key (onlarda rdi,
+bizde adc-carry türevi), call→pop+add+sabit+jmp sıçrama (bizde 0x140231566 pop rdi; adc;
+jmp rdi); farklı olanlar — 3.9.4'te derin füzyon + dosya-başına farklı giriş anahtarları.
+
+**Yordam:** scripts/v324_mutasyon_devirt.py (statik desen taraması), v324_birebir.py (imza
+eşleme + akış), v324_sonuc.py (nihai tablo), komut-atıf koşusu (olay→dispatch aralığı).
+**Kanıt:** download/v324_kanit/ (birebir_sonuc.txt/json + scriptler), V324_rapor.html/md.
+<!-- V324_SON -->
