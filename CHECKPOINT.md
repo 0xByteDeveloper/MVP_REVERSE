@@ -9,3 +9,13 @@ Kanıt/rapor: download/V321_rapor.html + .md + download/v321_kanit/; WORKLOG2.md
 Sıfırlanınca: git remote set-url origin (PAT skill dosyasında) + reset origin/main → v314_yeniden_kur.sh → v312_apply_yukseltme.py (111) → build → v321_istikrar.py.
 Sıradaki: (1) birleşik işleyici derinliği, (2) MBA×Pack kökü, (3) dönen-anahtar, (4) BMI, (5) saldırı direnç testi.
 <!-- V321_SON -->
+
+<!-- V322_BAS -->
+# V322 KONTROL NOKTASI — 2026-11-26
+
+Görev: resmî 3.9.4 sanallaştırılmış MovePlayer'ı kaldırmak (kullanıcı hedefi: birebir disassembly).
+Elde: rar (73MB, upload/), 15+ çıktı, unicorn zinciri ÇALIŞIYOR (56.870 adım, 422 komut, 263 işleyici,
+VIP=RSI, VM-yığını=RDI, dispatch=jmp rbp, VM girişi 0x1400CD444). rea+Ghidra koştu (direnç kanıtı).
+Kanıt: download/v322_kanit/ + work/v322/. Scriptler: v322_lifter/analiz/semantik.py.
+Sıradaki: konuk yuvaları → 263 işleyici semantiği → pcode anahtar → birebir liste.
+<!-- V322_SON -->

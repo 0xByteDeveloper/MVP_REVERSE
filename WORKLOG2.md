@@ -623,3 +623,23 @@ Ghidra+rea: work/v321/ (ghidra, jdk-25.0.5.1+2, rea_test) — yeniden kur gereki
 (5) XMM+VEX; (6) sarmalayıcı 2048; (7) saldırı direnç testi (rea altyapı hazır).
 <!-- V321_SON -->
 <!-- V321_SON -->
+
+<!-- V322_BAS -->
+<!-- V322_BAS -->
+## 44) V322 (2026-11-26) — RESMÎ 3.9.4 ÇIKTILARI + UNICORN KALDIRICI ZİNCİRİ ÇALIŞIYOR
+
+**Özet:** (a) localdekendimdenedim.rar Yandex'ten indirildi (agent-browser, captcha yok) → 15+ resmî
+çıktı; (b) MovePlayer RVA=0x14C6; (c) varsayılan giriş stub'ı çözüldü → VM girişi 0x1400CD444 (push
+anahtar×2 + şifre-zinciri + popfq + jmp rbx); (d) unicorn emülasyonu: 56.870 adım, 422 dispatch
+(jmp rbp), 263 benzersiz işleyici, VIP=RSI (dağıtılmış pcode), VM-yığını=RDI (monoton azalan,
+dönen durum), ilk ~46 komut = giriş/şifre fazı; (e) rea+Ghidra c100'de koştu (Failed to create
+function = direnç kanıtı); (f) 3 referans repo klon+okundu (lifter.cxx = Zydis+Unicorn yaklaşımı);
+(g) resmî örnek ≈ 2,6MB vs bizim 1,93MB (parite verisi). Hedef (kullanıcı): MovePlayer disassembly'yi
+birebir yeniden üretmek — zincir hazır, grind sürüyor.
+
+**Yordam (sıfırlanırsa):** agent-browser ile yandex indir (buton @e19 İndir) → unrar x (TAM çalışıyor!)
+→ v322_lifter.py/analiz.py/semantik.py zinciri (scripts/). Ghidra+JDK25: work/v321/ (kurulu).
+**Açık:** konuk yuva sabitleme, 263 işleyici semantiği, pcode dönen-anahtar tersine çevirme,
+varyant taraması, birebir liste üretimi.
+<!-- V322_SON -->
+<!-- V322_SON -->
