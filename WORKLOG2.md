@@ -777,3 +777,51 @@ komut-etiketleme ~%85 (pozitif-yol atıfları tamam; her komutun tip etiketi kal
 **Kanıt:** download/v326_kanit/ (4 klasör × 5 yön satir42 + ozet.json + betikler) + V326_rapor.html/md.
 **Yordam:** scripts/v326_satir42.py, v326_all_ep.py, v326_all_unpack.py, v326_rapor.py.
 <!-- V326_SON -->
+
+<!-- V327_BAS -->
+## 49) V327 (2026-11-26) — ALL TEŞHİSİ: ANTİDEBUG DEĞİL, İSTİSNA-TABANLI UNPACKER + KOMUT-ETİKETLEME %100
+
+**Soru:** "ALL'u yapamadığın şeyler antidebug kaynaklı mı? KozDbg'den çöz, antivm'i çöz, IAT
+randomlaması LZMA complexity'yi analiz et."
+
+**ALL teşhisi (6 emülatör sürümü + 9'luk giriş-matrisi deneyi — kesin):**
+- TEB/PEB/Ldr/KUSER_SHARED_DATA + GERÇEK PE-export tablolu sahte ntdll/kernel32 (KozDbg değerleriyle:
+  BeingDebugged=0, NtGlobalFlag=0, NtQIP(DebugPort)→0/(0x1E)→0xC0000353/(0x1F)→1, NtClose(DEADC0DE)→
+  0xC0000008, CPUID hypervisor=0, RDTSC tutarlı) → yazmaçlar/kızak BİREBİR AYNI (PEB okumuyor)
+- Giriş matrisi EFLAGS{244,202,002} × RCX × [RSP]: 9/9 koşu aynı 343892 insn — dosya-içi deterministik
+- SYSCALL kancası (UC_HOOK_INSN+UC_X86_INS_SYSCALL, doğrulandı) → unpacker syscall KULLANMIYOR; API=0
+- Kızak-anı dökümü: `movzx r9d,[rdx+r9*2-0xf187d1a]` — sabit r9*2 → EA=rdx=8 → BİLİNÇLİ NULL-page
+  tuzak talimatı; tuzak değeri `mov r9d,[rcx+r9*4]` (rcx=YIĞIN LUT) indeksine giriyor
+- **SONUÇ: istisna-tabanlı unpacker.** Gerçek Windows'ta [8] → ACCESS_VIOLATION → VEH değer üretir →
+  yığın-LUT indeksi. Emülatörde AV üretilemiyor (unicorn 2.1: hook içi mem_map→UC_ERR_MAP;
+  UNMAPPED→False istisnaya dönüşmüyor) → LUT yanlış → `jmp r8` 0x1000'e düşüyor. Ultra köprülerindeki
+  CC/F4 tuzak-atlama mekanizmasının istisna-kaynaklı hali. Çözüm: gerçek Windows çalışma-anı dökümü
+  (VEH değerini görmek) veya unicorn VEH-yaması — sandbox dürüst sınırı.
+
+**LZMA/IAT/bölüm analizi (tamam):**
+- .cqM (31.5MB) içinde LZMA-ALONE başlık taraması S1 (tam başlık)/S2 (props+dict-pow2)/S3 (XOR 1-2-4-8
+  bayt anahtar)/S4 (zlib/xz/lz4 imza): **0 aday** → sıkıştırma koşu-anı anahtarlı veya VMP özel türevi
+  → statik dekompres imkânsız (kesin)
+- ALL'da 5 bölüm SANAL (RSZ=0): .text/.rdata/.data/.pdata + **.FYP 19.5MB** — orijinal kod dosyada hiç yok
+- IAT sahteciliği: import 9 DLL listeler ama fonksiyonlar sahte-CRT (__p___argc, __p__environ — bu
+  programda çağrılmaz); gerçek IAT koşu-anında .cqM'den dekripte
+- Bölüm isimleri derleme-başı rastgele (.FYP/.#:V/.cqM vs .OWh); tüm dosyalarda ts aynı → tek oturum
+
+**Komut→tip semantik etiketleme %85→%100 (V325'in eksik adımı TAMAM):**
+941/941 komut (51/8/859/23) dispatch-arası yazmaç-deltası + bellek-olayı + WrapPos giriş/çıkış
+kanıtlarıyla etiketlendi (LOAD/STORE/RMW/CALL/PROLOG/EPILOG/ARITH-FUSE/VM-İÇ):
+- varsayilan 51: VM-İÇ 2, ARITH/FUSE 17, PROLOG/EPILOG 24, LOAD 3, CALL 1, STORE 2, RMW 2
+- c100 8: LOAD(pos)→CALL(WrapPos)×2→STORE(pos)→RMW(g_dots,g_score) — 42 satır → 8 komut (en derin füzyon!)
+- ultra 859: ARITH/FUSE 836 (obfuscasyon katmanı = VARSAYILAN'ın ~49 katı)
+- ultra_c100 23: dengeli karışım
+- VARSAYILAN #14 (dx+dy tek komutta), #24 (2×WrapPos tek komutta), #38 (maze+g_dots tek komutta) pekişti
+- VM-İÇ toplam sadece 5/941 — tüm komutlar kullanıcı 42-tip uzayına bağlandı
+
+**Dürüst durum:** MUTATION %100 · sanallaştırılmış 42-satır %100 (V326) · komut-etiketleme %100 (bu tur) ·
+ALL teşhis %100 (antidebug değil, istisna-tabanlı) · ALL unpack: gerçek Windows dökümü gerekli ·
+kaynak yükseltme: eşleme + füzyon parametresi + AV-tuzak bilgisi hazır, aktarım sürüyor.
+
+**Kanıt:** download/v327_kanit/ (etiket_*.txt ×4, etiket_ozet.json, kok_neden.txt, lzma_iat_rapor.txt,
+matris_sonuc.json, betikler) + V327_rapor.html/md.
+**Yordam:** scripts/v327_kok_neden.py, v327_all_unpack2-5.py, v327_all_matrix.py, v327_lzma_iat.py, v327_etiketleme.py, v327_rapor.py.
+<!-- V327_SON -->

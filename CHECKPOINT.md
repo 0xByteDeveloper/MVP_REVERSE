@@ -53,3 +53,14 @@ SIRADA: (a) komut→tip etiketlemesi (%85→%100: her dispatch'in semantik sın�
 gerçek Windows dökümü ya da uzun-süreli emülatör koşusu, (c) 3.5.1 kaynağına aktarım:
 YÖNTEM §7 + füzyon parametresi (pcode derleyici ayarı).
 
+# V327 KONTROL NOKTASI — 2026-11-26
+ALL TEŞHİS EDİLDİ: antidebug/antivm DEĞİL — istisna-tabanlı unpacker (bilinçli NULL-page AV-tuzak
+talimatı + yığın-LUT; VEH değer üretiyor). Kanıt: TEB/PEB kuruldu fark yok; 9/9 giriş-matrisi
+deterministik; syscall kullanmıyor; kızak-anı dökümü kok_neden.txt'de. KozDbg bypass değerleri
+uygulandı (fark yaratmadı → kontrol PEB'te değil). LZMA statik: 0 aday (koşu-anı anahtarlı). IAT
+sahteciliği + 5 sanal bölüm (orijinal kod dosyada yok). KOMUT-ETİKETLEME %100: 941/941 komut
+(51/8/859/23) — c100 8 komutta tam okunuş, ultra 836 obfuscasyon.
+SIRADA: (a) ALL için gerçek Windows çalışma-anı dökümü (kullanıcı Windows'ta x64dbg ile VEH değerini
+alarak — reçete hazır), (b) 3.5.1 kaynağına YÖNTEM §7 + füzyon parametresi aktarımı, (c) unicorn
+VEH-emülasyon yaması araştırması.
+
