@@ -737,3 +737,42 @@ kaldı); ALL %0 (çalışma-anı sınırı); kaynak yükseltme eşlemesi hazır,
 **Kanıt:** download/v325_kanit/ (6 dosya) + V325_rapor.html/md + TersineCevirici repo.
 **Yordam:** scripts/v325_yonmatrisi.py, v325_kopru.py, v325_rapor.py.
 <!-- V325_SON -->
+
+<!-- V326_BAS -->
+## 48) V326 (2026-11-26) — 42 SATIR 4 SANALLAŞTIRILMIŞ VARYANTIN TÜMÜNDEN İZ-KANITIYLA ÜRETİLDİ (20/20)
+
+**Soru:** "Şuana kadar 3.9.4 ile vmplenmiş Test_64_mutation.vmp.exe'yi mi çözdük? diğerlerini de
+çözecektik" — cevap: MUTATION'dan statik 42/42 (V324) + 4 sanallaştırılmış varyant dinamik
+doğrulama (V325). Bu tur eksik parçayı kapattı: **kullanıcının 42 satırı, 4 sanallaştırılmış
+dosyanın HER birinden, 5 yönün HER birinde iz-kanıtıyla üretildi — 20/20 koşu × 42/42 satır.**
+
+**Yöntem (statik/dinamik fark etmez — karma):** iz → semboller → talimat → kanıt:
+(1) bellek olayları (dx/dy/g_px/g_py/maze/g_score/g_dots oku-yaz, komut# atfıyla),
+(2) WrapPos giriş/çıkış kanıtı (girişte ecx/edx, ret 0x1400014B8'de eax → iki call'ın argüman
+ve sonuçları doğrudan), (3) yazmaç geri-çıkarma (eax=yon-1, esi=yeni_px, rdx=py*16),
+(4) dal ölçümü, (5) **NEGATİF KANIT**: dal alınmayan talimatların olay YOKLUĞU = dalın
+alındığının ispatı (yon=1/3: 5 yazma talimatının YAZMA olayı yok → je ALINDI; yon=5: tablo
+okuması yok → ja ALINDI).
+
+**Sonuç matrisi (dispatch sayıları):** VARSAYILAN 35/51/44 (duvar/hamle+nokta/ja), c100 7/8/8,
+ultra 807/859/550, ultra_c100 17/23/23 — hepsi 42/42. Aynı 42 satır dört farklı komut sayısına
+derleniyor = 3.9.4 superoperator derleyicisinin dosya-başına füzyon parametresi (kaynak
+yükseltmede pcode derleyici ayarı olarak modellendi).
+
+**Derin füzyon (kanıt):** iki call WrapPos TEK VM komutunda — VARSAYILAN #24, ultra #472.
+ultra'nın 859 dispatch'i = obfuscasyon katmanı komutları (VARSAYILAN'ın ~17 katı).
+
+**ALL (Pack) denemesi (dürüst):** .text/.rdata/.data dosyada sıfır-byte (RA=0,RSZ=0); 31.5MB .cqM
+paket + 19.5MB .FYP bytecode; EP 0x1412B5F2F (push imm32+pushfq+test+call). Wine yok →
+Unicorn+API-taklitçi (LoadLibrary/GetProcAddress/VirtualAlloc/VirtualProtect emülasyonu,
+int3-atlama, OEP=.text'e ilk giriş kancası) unpacker koşusu denendi; koşu dakikalar sürüyor,
+bu ortamda makul sürede OEP'e ulaşamadı (koşu günlüğü: work/v326/all_unpack_bg.log).
+Kesin çözüm gerçek Windows çalışma-anı dökümü — varsayım kullanılmadı.
+
+**İlerleme (dürüst):** MUTATION %100 · sanallaştırılmış 42-satır üretimi %100 (bu tur) ·
+komut-etiketleme ~%85 (pozitif-yol atıfları tamam; her komutun tip etiketi kaldı) · ALL %0
+(çalışma-anı sınırı) · kaynak yükseltme: eşleme + füzyon parametresi hazır, aktarım sürüyor.
+
+**Kanıt:** download/v326_kanit/ (4 klasör × 5 yön satir42 + ozet.json + betikler) + V326_rapor.html/md.
+**Yordam:** scripts/v326_satir42.py, v326_all_ep.py, v326_all_unpack.py, v326_rapor.py.
+<!-- V326_SON -->

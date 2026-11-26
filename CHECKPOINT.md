@@ -43,3 +43,13 @@ unpacker-stub emülasyonu veya gerçek Windows dökümü, (d) 3.5.1 kaynağına 
 eşlemesinin uygulanması (mutation.cpp junk aileleri, lea-füzyon, vmenter sadeleşmesi).
 Scriptler: v325_yonmatrisi.py, v325_kopru.py, v325_rapor.py + TersineCevirici (C++).
 
+# V326 KONTROL NOKTASI — 2026-11-26
+42 SATIR ÜRETİMİ TAMAMLANDI: 4 sanallaştırılmış varyant (VARSAYILAN/c100/ultra/ultra_c100) ×
+5 yön = 20/20 koşu, her birinde 42/42 satır iz-kanıtlı (pozitif + NEGATİF kanıt). WrapPos
+giriş/çıkış kanıtı eklendi (ret 0x1400014B8'de eax). Füzyon parametresi bulgusu: aynı kaynak
+7-8 / 17-23 / 35-51 / 550-859 komuta derleniyor. ALL=Pack: Unicorn unpacker denemesi OEP'e
+ulaşamadı (çalışma-anı gerekir).
+SIRADA: (a) komut→tip etiketlemesi (%85→%100: her dispatch'in semantik sınıfı), (b) ALL için
+gerçek Windows dökümü ya da uzun-süreli emülatör koşusu, (c) 3.5.1 kaynağına aktarım:
+YÖNTEM §7 + füzyon parametresi (pcode derleyici ayarı).
+
