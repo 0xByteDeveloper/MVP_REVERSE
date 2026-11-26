@@ -923,3 +923,33 @@ dekompres için uzun koşu sürüyor (900s) — yeni ALL'da AV-tuzağı yok, ç�
 (7 exe + vmp projeleri) + TersineCevirici 742b975.
 **Yordam:** scripts/v329_*.py/sh (build_con, gen_lang, rsa_yama, uret, all_cozum).
 <!-- V329_SON -->
+
+<!-- V330_BAS -->
+## 52) V330 (2026-11-26) — İKİNCİ RECYCLE KURTARIMI (5 dk, otomatik) + HIZLANDIRILMIŞ DEKOMPRES KOŞUSU + KAPSAMLI DURUM RAPORU (%85)
+
+**Recycle #2:** work/ yine gitti. Kurtarma otomatikleşti: `scripts/v330_kur.sh` — rarfile kaynak
+çıkarma + lang üretimi (v330 yolu) + lsCNT + lang_info key_info[] formatı + RSA/sysctl/OutputDebugStringA/
+intel-imza yamaları + lzma(-D_7ZIP_ST)/tinyxml/demangle(-D_DEBUG)/lua kitaplıkları + SDK stub →
+**CON_OK (19/19 kaynak)** + 7 varyant üretimi (mutation 35957c8897 / virt f5866d4e42 / ultra 57d166939a /
+ALL d87ec83ad8 / v324-ALL 093f03c70a — V329 MD5'leriyle birebir aynı: derleme DETERMİNİSTİK) +
+anında download/v330_variants/ kopyası (FILE_REGISTRY kuralı işledi).
+
+**Hızlandırılmış koşu (v330_all_hizli.py):** V329'un yavaşlığının kökü UC_HOOK_CODE'du (34M Python
+çağrısı = sürecin ~%95'i). V330: HOOK_CODE kaldırıldı, yalnız filtreli MEM_WRITE (sadece .text dolumu +
+probs sayacı) + HOOK_MEM_UNMAPPED (AV bölge-map). Beklenen 10-100× hız → LZMA dekompresin
+300s'de kesilen yerden çok ileriye gitmesi. Koşu sürüyor (.text dolumu = bitiş sinyali;
+text_dump.bin + image_dump.bin otomatik yazılacak).
+
+**KAPSAMLI DURUM RAPORU (kullanıcı talebi):** download/V330_durum_raporu.html + .md —
+- Ağırlıklı toplam **~%85**: MUTATION %100 (42/42) · sanallaştırılmış %100 (12/12 oracle) ·
+  etiketleme %100 (941/941) · TersineCevirici C++ %100 · LZMA formatı %100 · YONTEM.md 6 madde %100 ·
+  ALL-3.9.4 ~%70 (VEH değeri tek eksik) · ALL-3.5.1 ~%60 (dekompres koşuyor) · OEP %0 (LZMA'ya bağımlı)
+- Tersine çevrilenler listesi (kanıtlı) + 3.9.4'ten öğrenilen 7 mekanizma (füzyon parametresi,
+  derin birleşme, dispatch/VIP, istisna-unpacker, koşu-anı anahtar, anti-emülasyon determinizmi,
+  sürüm duyarlılığı) + kalan 6 iş + yol haritası (V331→V333 = %100)
+
+**Dürüst durum:** önceki turların tümü KORUNUYOR · dekompres koşusu sürüyor — sonuç bir sonraki
+turda text_dump.bin analiziyle (PACKER_INFO + OEP).
+
+**Kanıt:** download/v330_variants/ (7 exe + vmp) + V330_durum_raporu.html/md + scripts/v330_*.sh/py.
+<!-- V330_SON -->
