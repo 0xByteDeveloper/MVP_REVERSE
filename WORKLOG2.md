@@ -517,3 +517,109 @@ v313_mvp_reverse_push.py. Sandbox sıfırlanırsa: v314_yeniden_kur.sh → aynı
 (5) dönen anahtar; (6) VEX+XMM; (7) sarmalayıcı 216→2048.
 <!-- V320_SON -->
 <!-- V320_SON -->
+
+## 35) V321 (2026-11-26, kalici-prompt bootstrap) — x1-x4 paketi
+
+### V321-0: istem
+- Kullanici kalici promptu (KALICI_MASTER_PROMPT) yapistirdi: *REPO*=MyRepo (oncelik download/vmp_yukseltme_3.9.4). Gorevler: x1 kalan yer + VMP_3.9.4_YOL_HARITASI.md'yi profesyonelce uygula; x2 VMProtect surumune kadar anlayan HARICI packer finder bul+deneme; x3 bizim packer finder ile dogrula; x4 derleme sonrasi yonetim icin UniversalMVPUIAlgorithm_QT; orijinal.rar (Test_64.exe'ler + baska exeler test).
+### V321-1: M0 bootstrap ✓
+- MyRepo PAT ile klonlandi; WORKLOG2 sonu <!-- V320_SON --> dogrulandi → KALINAN YER: V320 (107 yama noktasi, 7 acik madde). vmp_yukseltme_3.9.4 klasoru V312-V313 arastirma yuvasi; GUNCEL is obfus_src/vmp + scripts/v320_*.
+- GLM_Tools iskeleti: STATE.json + tasks.json (V320'nin 7 acigi T-009..T-015 + roadmap A0-A7 T-007/008/016-021 + x1-x4 T-001..T-005 birlesik; T-006 'rea URL' blocker korundu) + FILE_REGISTRY.md.
+- orijinal.rar (19.899 B, sha256 becede6a...) + 4 MZ dosyasi assets/'e mirror; roadmap MyRepo kokune kopyalandi. Yeni Test_64.exe (12.800 B) = A0 sabit referansi; eski repo kopyalarindan FARKLI (yeni derleme, hash karsilastirmasi FILE_REGISTRY'de).
+
+### V321-2: M1+M2 (x1a + x2) ✓
+- KALINAN YER raporu yazildi (download/v321_kanit/V321_KALINAN_YER.md): son durak V320 (107 nokta, resmi 20MB profili, 16x3 istikrar, 7 acik madde); vmp_yukseltme_3.9.4 = V312-V313 arastirma yuvasi, guncel is obfus_src/vmp. Zaman cizelgesi V312->V320 raporlandi.
+- HARICI packer finder kurulumu: DIE 3.21 (diec, Debian13 deb) + DIE 4.0.0 AppImage (48MB, Qt5 libleri LD_LIBRARY_PATH ile) — ikisi de GitHub release'den indirildi, sha256 kaydedildi (FILE_REGISTRY).
+- DIE taramasi: 19 dosyalik korpus (temiz/gercek351/fork/cift-VMP-gercek/UPX/metin2/singularity) — die_tarama.json + die_tarama_sonuclari.txt. Deepscan normalden FARKSIZ. DIE: VMProtect aile-seviye (2.XX-3.XX), metin2'de 3.2.0-3.5.0 bandi, UPX surumlu, C2'yi KACIRDI (.dne bolum adi).
+- Korpus kalite bulgusu: vmptest Ultimate_3.9.4 KORUMA/REVERSE ile Lite_3.8.7 KORUMA exe'leri bayt-ozdes (sha256 2fcc79ed2c9e) — klasor etiketleri icerik garantisi degil.
+
+### V321-3: M3+M4 (x3 + x1b/A0) ✓
+- vmpdet5 tekil tarama 19/19 (batch --dir kusurlu: 4 dosya + arg-sirasi; tekil mod GUVENILIR — PACKER_FINDER issue kaydi acildi). Skor: DIE 12/13, vmpdet5 11/13 (aile-seviye VMP tespiti).
+- KARSILASTIRMA: V321_PACKER_FINDER_KARSILASTIRMA.md + V321_KARSILASTIRMA_TABLOSU.html (09 stili; skor kartlari, 19 satir tablo, celiski cozumleri E1/E2/C2, yol haritasi girdileri). Celiskiler bagimsiz PE ile cozumlendi: E1=.retard0/1 (VMP-rename hipotezi, FSG supheli FP), E2=.UzA0-2 (vmpdet5 iskaladi), C2=.dne (vmpdet5 bayrak deseniyle kazandi, DIE kacti).
+- A0 olcum arenasi: a0_olcum.json (boyut/bolum/entropi/opcode-histogram/isaret) + GAP_LIST.md. PARITE KANITI: fork C3 histogrami gercek 3.5.1 B1 ile neredeyse birebir (mov 79/79, int3 22/22, call 9/9). SIZINTI: fork ciktilari DIE'ye LLVM+MinGW+codeview sizdiriyor (gercekte gorunmuyor) -> T-018 girdisi.
+- tasks.json: T-001..T-004 done (kanit yollariyla).
+
+### V321-4: M5 (x4) ✓
+- UniversalMVPUIAlgorithm_QT bu sandbox'ta derlendi (make/g++13): 6 binary, 354 unit check 0 hata; CLI --list calisiyor (process_posix). Kanit: download/v321_kanit/qt_cli_deneme.txt. Kullanim (Windows, derleme sonrasi): umvpqt_cli --name korunan.exe --json rapor.json --asm-dir asm/ --click button1.
+
+### V321-5: M6 kapanis ✓
+- V321_rapor.md + MEMORY_CARD.md + SESSION_RECEIPTS/2026-11-26_v321_x1x4.md + STATE/tasks son durum. Teslim dosyalari sandbox download/'a kopyalandi. 4 push: f14ce55, 0f52553, 8a3d492, kapanis commiti.
+- OTURUM OZETI: x1 kalan yer=V320(107 nokta)+A0 kuruldu+parite kaniti (fork/gercek351 histogram birebir); x2 DIE 3.21/4.0 kurulu+12/13; x3 vmpdet5 11/13+karsilastirma MD/HTML; x4 QT SDK 354/0. Sonraki en degerli hamle: T-009 MBA x Pack koku.
+
+## 36) V322 (2026-11-26, 10x GOD MOD — "saatte 1x değil 10x") — rea unblock + devirt envanteri + import/maske paritesi
+
+### V322-0: istem + bootstrap
+- Kullanıcı: eski görevden devam (x1-x4 + VMP_3.9.4_YOL_HARITASI), 10x tempo; T-006 rea URL'si verildi (morluto/rea); resmi changelog + GitHub unpack/devirt'lere bakıp "algoritmayı çöz, korumayı anla, 3.9.4'ü kodla"; soru: "3.9.4'te import mu sectionlar mı random isimlerle şifreliyordu, ekledin mi?"
+- MyRepo + Ai_Chat_Project_Area PAT ile klonlandı; STATE/tasks/MEMORY_CARD okundu → kaldığı yer V321 sonu (T-006 blocked, T-007/009/018 open). V322 hattı: T-006 unblock + T-007 envanter + changelog/import araştırması + T-018 kodlama + T-009.
+
+### V322-1: M1 rea (T-006 KAPANDI) ✓
+- rea klonlandı (369 MB, commit 73d60926) → REA = genel RE MCP (Hopper/Ghidra/IDA köprüsü), VMP'ye özgü teknik bilgi YOK. Hüküm: parite hattına girdi değeri yok (kullanıcının "olmazsa vakit kaybetme" ön değerlendirmesi doğru). Kanıt: download/v322_kanit/V322_REA_DEGERLENDIRME.md + assets/rea_mirror (README/CHANGELOG/docs özeti, commit kilidi).
+- FILE_REGISTRY'ye V322 bölümü eklendi (rea + T-007 araç kayıtları).
+
+### V322-2: M2+M3 paralel ajanlar ✓
+- T-007 (A0.5) ajanı: NoVmp + AnimeNoVMP (cmake/make rc=0, binaryler koştu) + VMPStaticUnpacker (Python) + Triton attack (12.462 insn replay) — 4/4 araç sandbox'ta KOŞULABİLİR durumda, kanıt attacks/ + BUILD-PROOF.txt.
+- M3 changelog ajanı: resmî changelog 3.6.0→3.9.4 TAM TABLO çekildi (22 sürüm; 3.9.4=build 2275, 3.5.1=1387). "Random isim" gizemi ÇÖZÜLDÜ: 3.6.0 mask '?' bölüm adları (import değil!); import koruması = salt+yeni IAT+kalan 12-fonksiyonluk KERNEL32 stub seti (+CharUpperBuffW). LZMA iddiası doğrulanamadı. Kanıt: download/v322_kanit/V322_CHANGELOG_VE_IMPORT_ARASTIRMASI.md
+- COUNTER_TECHNIQUE_MATRIX yazıldı (C1-C8: saldırı tekniği→sömürü→bizde durum→savunma task): download/v322_kanit/V322_SALDIRI_ENVANTERI.md — C6 (DIE'ye LLVM/MinGW sızıntısı) en somut açık zafiyet.
+
+### V322-3: M4 parite kodlaması başladı
+- Gerçek 3.5.1 ImportProtection varyantının import dökümü alındı (v322_import_gercek_351.json): orijinal importlar (AllocConsole/CreateThread/puts...) kaybolmuş, kalan = CRT + KERNEL32(111 anti-debug seti) + CharUpperBuffW + 11-fonksiyonluk stub seti; bölüm adları .Rhb0/.Rhb1/.Rhb2 (build içinde STABİL taban + indeks).
+- PARİTE HATASI BULUNDU: fork'un 1. yaması (NextSectionName) maskeyi HER ÇAĞRIDA yeniden çözüyordu → bölüm başına farklı taban (gerçekte: taban build başına 1 kez). 108. YAMA YAZILDI: ResolveSectionMask() files.cc/files.h'de + core.cc'de options.section_name atamasında (srand sonrası → RandomSeed üretebilirliği korunuyor). Yama sayısı 107 → 110 nokta.
+- 109. nokta NOT olarak işlendi: stub import seti CharUpperBuffW paritesi önce ÖLÇÜM ile doğrulanacak (ölçüm aracı: scripts/v322_import_analiz.py repo'ya işlendi).
+- Derleme (build_patched) başlatıldı — 2 çekirdek, sürüyor.
+
+### V322-4: M4 kodlama + doğrulama ✓
+- DERLEME tamam: build_patched (110 yama noktası; -j 2 OOM kırılgan — ilk deneme core 4/19'da öldü, yeniden koşunca önbellekle tamamlandı; not: 3GB RAM'de -j 1 güvenli).
+- TEST-A (108. yama doğrulama): maske ".???" → rs1: **.5af0/.5af1/.5af2**, rs2: **.aFq0/.aFq1/.aFq2** — build içinde stabil taban + indeks (gerçek 3.5.1 .Rhb0/.Rhb1/.Rhb2 deseni BİREBİR), tohuma göre taban değişiyor ✓. Kanıt: v322_maskeA3.json + v322_test_bataryasi.json.
+- TEST-B (109 ölçümü — import paritesi): fork imp_only çıktısının kalan import seti = **KERNEL32 11 fonksiyonluk stub seti (LocalAlloc...GetProcAddress) gerçek 3.5.1 ile BİREBİR**; orijinal importlar temizlenmiş (puts/fgets/AllocConsole/CreateThread yok); bölüm bayrak deseni de birebir (.vmp0 0x60000020, .vmp1 0xc0000040, .vmp2 0x68000060). Fark: gerçek varyantta USER32!CharUpperBuffW + daha geniş CRT kalıyor (T-022). Boyut: imp_only 42,7MB = vi10+c100 kalibrasyon farkı (biliniyor, hata değil).
+- wine KURULDU (apt-get download + v312_wine_kur.sh reçetesi, 751 builtin DLL) — blocker kaldırıldı; istikrar koşuları artık bu sandbox'ta mümkün.
+
+### V322-5: M5 T-009 KÖK NEDEN ✓ (rapor: download/v322_kanit/V322_T009_KOK_NEDEN.md)
+- 222 = 0xDEADC0DE & 0xFF = loader'ın LOADER_ERROR çıkışı — "222" gizemi çözüldü.
+- İKİ BAĞIMSIZ neden: (A) Check bit'leri wine'ı tespit ediyor (by design — c_check_sadece: yalnız 0x400|0x800|0x20000 → 222); (B) MBA × motor-içi komutlar × Pack/Imp/MP (gerçek hata).
+- Deney zinciri: nogate motor (kapı kaldırılmış) D1-D5: fonksiyonsuz pack build bile 222 (gated: rc=0); -vc süpürme: vc=0 ✓ vc=5 ✓ vc=20 ✗ vc=100 ✗ (olasılıksal); fonksiyonsuz .vmp0 boyut farkı +764KB = MBA'nın motor-içi komutlara eklediği kod.
+- HÜKÜM: V319b kapısı GEREKLİ (motor-içi zincirleri koruyor; "gereksiz karantina" hipotezi çürütüldü). Gerçek çözüm T-009b: hedefli kapsam (motor-içi zincirlerde engelle, kullanıcı fonksiyonlarında Pack'le aç). Talimat-seviyesi bisect = T-009a.
+- NOGATE ağacı notu: intel.cc LF'e dönüştü (CRLF→LF, 440B semantik fark yalnız kapı) — derleme semantic eşdeğer; D3 deneyi bu ağaçla yapıldı.
+
+### V322-6: kanıt + task güncellemeleri
+- v322_kanit/: REA_DEGERLENDIRME, SALDIRI_ENVANTERI (COUNTER_TECHNIQUE_MATRIX C1-C8), CHANGELOG_VE_IMPORT_ARASTIRMASI (22 sürüm tablo), T009_KOK_NEDEN + 4 JSON kanıt.
+- tasks.json: T-006/T-007 done; T-009 done(kök-neden); T-009a/T-009b/T-022/T-023/T-024 açıldı. 8 done / 26 task.
+
+<!-- V321_BAS -->
+<!-- V321_BAS -->
+## 43) V321 (2026-11-26) — REA+GHIDRA ALTYAPISI + KOPYA-BAŞI RASTGELE VM YAZMAÇLARI (111. NOKTA) + x_vmp CEVAPLARI
+
+**Özet:** (a) universalAllver.rar (500MB, /tmp'den kurtarıldı) → upload/ KALICI; rar içi 3.9.4 =
+YEAHMAN ikilisi (MD5 24576e5e… birebir). (b) rea v6.10.1 + Ghidra 12.2 + JDK25 kuruldu — Test_64
+analizi ÇALIŞTI (rea-workflow→Ghidra, sha256 evidence); resmî 394 analizi zaman-kutulu koştu.
+(c) 111. nokta: kayıtsız SABİT VM yazmaç düzeni (ESI/EBP/EDI/R11) kalktı → her kopya pcode/stack/jmp'yi
+havuzdan seçer (resmî Instances 'different register positions' + yön rand&1 zaten + gövde V320 junk) —
+bilinen devirt kaldıracı (tek-lifter) kapatıldı; tohum-kanıt: farklı tohumlar tamamen farklı .vmp baytları.
+(d) İstikrar 16×3: 14 temiz + 2 anti-analiz, 0 hata; boyutlar aynı (yazmaç rastgeleliği boyut-nötr).
+(e) Disk krizi yaşandı (ghidra 1,5G + rar kopyası): /tmp kopyası + yeahman 1,7G kırpılarak çözüldü;
+ara tarama [1,1,1]'ler DİSK DOLUSU nedeniyle geçersizdi — temiz diskte 4. koşu = [0,0,0] (atıf kanıtlı).
+
+  mut_c100_mba             opts=0x0     -vc 100 -rs 1          boyut=15360     wine=[0, 0, 0]      oyun=True  -
+  mut_c20_mba              opts=0x0     -vc 20 -rs 1           boyut=14336     wine=[0, 0, 0]      oyun=True  -
+  virt_c100_vi10           opts=0x0     -vc 100 -rs 1          boyut=18859520  wine=[0, 0, 0]      oyun=True  -
+  ultra_c100_mba           opts=0x0     -vc 100 -rs 1          boyut=18913280  wine=[0, 0, 0]      oyun=True  -
+  tum13_ultra_mba          opts=0x0     -vc 100 -rs 1          boyut=18931712  wine=[0, 0, 0]      oyun=True  -
+  tum13_mut_mba            opts=0x0     -vc 100 -rs 1          boyut=15872     wine=[0, 0, 0]      oyun=True  -
+  vi1_virt_c100            opts=0x0     -vc 100 -rs 1 -vi 1    boyut=1931776   wine=[0, 0, 0]      oyun=True  -
+  pack_yaliniz_c50         opts=0x100   -vc 50 -rs 1           boyut=14124032  wine=[0, 0, 0]      oyun=True  -
+  imp_only                 opts=0x200   -vc 100 -rs 1 fc=100   boyut=42741760  wine=[0, 0, 0]      oyun=True  -
+  mp_only                  opts=0x1000  -vc 100 -rs 1 fc=100   boyut=45405696  wine=[0, 0, 0]      oyun=True  -
+  x3_tamayar_c50           opts=0x513c8 -vc 50 -rs 1 fc=100    boyut=15797760  wine=[0, 0, 0]      oyun=True  -
+  x3_tamayar_c20           opts=0x513c8 -vc 20 -rs 1 fc=100    boyut=7534080   wine=[0, 0, 0]      oyun=True  -
+  tum_ayar13_c50           opts=0x513c8 -vc 50 -rs 1           boyut=15976448  wine=[0, 0, 0]      oyun=True  -
+  full_vi1_c100            opts=0x513c8 -vc 100 -rs 1 -vi 1    boyut=5845504   wine=[0, 0, 0]      oyun=True  -
+  full_arti_c50            opts=0x71fc8 -vc 50 -rs 1 fc=100    boyut=16023040  wine=[222, 222, 222] oyun=False -
+  full_arti_anti_c50       opts=0x71fc8 -vc 50 -rs 1 fc=100    boyut=16023040  wine=[222, 222, 222] oyun=False -
+
+**Devam yordamı:** sandbox sıcakken: v312_apply_yukseltme.py (111) → v312_build_linux.py →
+scripts/v321_istikrar.py → v321_kaydet.py → push. Sıfırlanırsa: PAT token'ı (skills/god-state-mvp-work/SKILL.md
+tazelendi) + git remote set-url origin MyRepo + reset origin/main → v314_yeniden_kur.sh → aynı zincir.
+Ghidra+rea: work/v321/ (ghidra, jdk-25.0.5.1+2, rea_test) — yeniden kur gerekir (indir + unzip + npm i rea-agents).
+**Açık:** (1) birleşik işleyici derinliği; (2) MBA×Pack kökü; (3) dönen-anahtar; (4) BMI girdileri;
+(5) XMM+VEX; (6) sarmalayıcı 2048; (7) saldırı direnç testi (rea altyapı hazır).
+<!-- V321_SON -->
+<!-- V321_SON -->
