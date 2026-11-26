@@ -19,3 +19,15 @@ VIP=RSI, VM-yığını=RDI, dispatch=jmp rbp, VM girişi 0x1400CD444). rea+Ghidr
 Kanıt: download/v322_kanit/ + work/v322/. Scriptler: v322_lifter/analiz/semantik.py.
 Sıradaki: konuk yuvaları → 263 işleyici semantiği → pcode anahtar → birebir liste.
 <!-- V322_SON -->
+
+<!-- V323_BAS -->
+# V323 KONTROL NOKTASI — 2026-11-26
+
+Görev: MovePlayer disassembly'yi birebir üretmek (kullanıcı hedefi).
+BU TUR: resmî 3.9.4 VM unicorn'da TAM ÇÖZÜLDÜ — doğru giriş (0x1400014C0→jmp .vmp
+0x14007602F), [rsp]=0x140001689, RCX=yön → 111.170 adım, 51 komut, TEMİZ ret.
+KANIT: .data olayları + WrapPos×2 doğal oracle ile BİREBİR (7 OKU+5 YAZ aynı değerler).
+Aldatmaca-farkı: 0x1400CD444 iç köprüsü + adc-carry (0x140231567) = anti-emülasyon.
+SIRADA: 51 komutun iz-farklarından talimat semantiği → 155 satırlık liste; varyantlar.
+Scriptler: v323_tamiz.py (koşu), v323_natif.py (oracle). Kanıt: download/v323_kanit/.
+<!-- V323_SON -->

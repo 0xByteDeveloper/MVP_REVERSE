@@ -643,3 +643,20 @@ birebir yeniden üretmek — zincir hazır, grind sürüyor.
 varyant taraması, birebir liste üretimi.
 <!-- V322_SON -->
 <!-- V322_SON -->
+
+<!-- V323_BAS -->
+<!-- V323_BAS -->
+## 45) V323 (2026-11-26) — RESMÎ 3.9.4 VM'İ UNICORN'DA TAM ÇÖZDÜK (birebir oracle eşleşmesi!)
+
+**Özet:** (a) önceki koşuların aldatmaca olduğu kanıtlandı (0x1400CD444 = iç köprü; adc-carry
+anti-emülasyon); (b) GERÇEK yapı: MovePlayer=0x1400014C0 (kullanıcı listesi birebir), gövde
+başına `jmp 0x14007602F`, çağıran tick 0x1684 değişmedi; (c) gerçek vmenter = push r11+pushfq+
+movabs 0x6e172228b99c951d+test/jge; (d) DOĞRU KOŞU: 111.170 adım, 51 dispatch, TEMİZ dönüş,
+.data olayları+WrapPos×2 doğal oracle ile BİREBİR (7 OKU + 5 YAZ aynı değerlerle!); (e) 0x1560 =
+GHOSTSTEP (LCG rand yapay zekâ), .pdata şifreli, caller-mutation (0x14C0→.vmp kopya); (f) 51
+komut/155 talimat = derin füzyon doğrulaması; (g) kaynağa 7 somut yükseltme bulgusu.
+**Yordam:** scripts/v323_tamiz.py (doğru giriş: 0x1400014C0, [rsp]=0x140001689, RCX=yön) +
+v323_natif.py (oracle). **Açık:** talimat-düzeyi semantik iz (konuk GPR'ler host yazmaçlarda
+geçici — izden süzülecek), varyant koşuları, birebir 155 satırlık liste üretimi.
+<!-- V323_SON -->
+<!-- V323_SON -->
