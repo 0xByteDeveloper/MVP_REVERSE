@@ -873,3 +873,53 @@ kaynak yükseltme: 6 kanıtlı madde hazır.
 V328_rapor.html/md + TersineCevirici b437c0e.
 **Yordam:** scripts/v328_vtablo.py, v328_av_kaba.py, v328_bit3_matris.py, v328_rapor.py + tc_etiket.hpp/cpp.
 <!-- V328_SON -->
+
+<!-- V329_BAS -->
+## 51) V329 (2026-11-26) — KAYIP KURTARMA + ÇÖZÜM TURU: work/ recycle'da gitti → rar'dan 3.5.1 kaynağı kurtarıldı → vmprotect_con Linux-native DERLENDİ → V324 varyantları YENİDEN ÜRETİLDİ → ALL'da LZMA dekompres DÖNGÜSÜ YAKALANDI + YONTEM.md (6 madde) TersineCevirici'ye push edildi
+
+**Kayıp:** work/ tamamen recycle'da (V324 varyantları dahil; git geçmişinde yok — hiç push edilmemişlerdi).
+
+**Kurtarma (0→1):**
+- universalAllver.rar içinden 3.5.1 TAM KAYNAK çıkarıldı (rarfile ile 1197 dosya; VMProtectCon/
+  console.cc+main.cc dahil — unrar jokerleri boş açıyordu, Python rarfile çözdü)
+- Yeniden üretilen yapı taşları: lang_enum/lang_def/lang_info (lang.bat'ın Python karşılığı —
+  lsCNT enum-sonu kuralı), version.h (version.bat), intrin.h boş karşılık, vmpcompat/msvc_macros.h
+  (V13 kaybının yeniden yazımı — HANDLE/strcpy_s çakışmaları çözüldü: precommon.h zaten tanımlıyor),
+  liblzma (-D_7ZIP_ST tek-thread), libtinyxml (-include sstream/istream), libdemangle
+  (-D_DEBUG maxloop + BOOL=int), liblua (make linux), SDK stub'ları (extern C 22 fonksiyon)
+- OpenSSL 3.x uyumu: RSA opaque struct → RSA_get0_key + BN_num_bytes makrosu
+- **vmprotect_con Linux-native CON_OK** (19 kaynak, g++ 14.2): "VMProtect Professional v3.5.1"
+
+**Varyant yeniden üretim (gerçek .vmp XML formatı çözüldü):**
+- İlk deneme: hepsi aynı MD5 → MapAddress=0x1400014C0 eşleşmiyor; export ADI (MovePlayer) gerekli
+  + IncludedInCompilation="true" + gerçek örnek formatı (rar'daki Code Markers .vmp'sinden)
+- Üretilen: mutation 1284K / virtualization 1293K / ultra 1289K / ALL 1245K — FARKLI MD5'ler,
+  0x14C0'da E9 jmp (V324 deseni birebir: mut→0x140104316, virt→0x14004C151, ultra→0x1400D3267)
+- **V324 tarzı ALL:** Options=0x513C8 (V321 MAKS) → .text/.rdata/.data/.pdata RSZ=0 SANAL +
+  .vmp00 1.8MB sanal — V324'ün .FYP/.cqM deseninin 3.5.1-motor karşılığı
+
+**ÇÖZÜM TURU bulguları (yeni ALL, emülatör):**
+- V327'nin AV-tuzağı bu yapıda YOK (AV=0) — koşu 300s'de 34.5M talimat, KIZAKSIZ
+- **LZMA DEKOMPRES YAKALANDI:** 0x200000-0x2FFFFF bölgesine 34.4M yazma = LzmaGetNumProbs
+  probability tablosu (dict 1<<24'ün probs alanı); 0x2C0000-0x360000'de 64K-blok başına
+  tam 32768 uniform talimat = probs güncelleme döngüsü
+- .text'e yazma henüz 0 — dekompres tamamlanmadı (300s yetmiyor; 900s koşu başlatıldı,
+  betik kayıtlı: scripts/v329_all_cozum.py)
+- Yani: 3.5.1-motor ALL'da VEH tuzağı yerine DÜZ LZMA akışı var — unpack çözümü emülatörde
+  tamamlanabilir görünüyor (sadece süre sorunu)
+
+**YONTEM.md (TersineCevirici 742b975 — push doğrulandı):**
+- Bölüm A: V320-V329 yöntem zinciri (A.1-A.10: determinizm, kaldırıcı, oracle, birebir çıkarma,
+  C++ taşıma, negatif kanıt, istisna-teşhisi, LZMA formatı, kaynak kurtarma, reu karşılaştırma)
+- Bölüm B: 3.5.1→3.9.4 6 KANITLI fark maddesi (füzyon parametresi, derin füzyon, dispatch/VIP,
+  PACKER_INFO, istisna-unpacker, sürüm duyarlılığı) — her madde gözlem→kanıt→yükseltme yapısı
+- Bölüm C: ALL unpack playbook (kurulum→uzun koşu→AV-tuzağı→LZMA bitişi→OEP)
+
+**Dürüst durum:** MUTATION %100 · sanallaştırılmış %100 · komut-etiketleme %100 · LZMA formatı
+%100 · yükseltme 6 maddesi AKTARILDI (YONTEM.md) · ALL unpack: LZMA döngüsü yakalandı, tam
+dekompres için uzun koşu sürüyor (900s) — yeni ALL'da AV-tuzağı yok, çözüm emülatörde mümkün.
+
+**Kanıt:** download/v329_kanit/ (çözüm turu raporu + betikler) + download/v329_variants/
+(7 exe + vmp projeleri) + TersineCevirici 742b975.
+**Yordam:** scripts/v329_*.py/sh (build_con, gen_lang, rsa_yama, uret, all_cozum).
+<!-- V329_SON -->
