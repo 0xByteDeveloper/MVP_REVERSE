@@ -825,3 +825,51 @@ kaynak yükseltme: eşleme + füzyon parametresi + AV-tuzak bilgisi hazır, akta
 matris_sonuc.json, betikler) + V327_rapor.html/md.
 **Yordam:** scripts/v327_kok_neden.py, v327_all_unpack2-5.py, v327_all_matrix.py, v327_lzma_iat.py, v327_etiketleme.py, v327_rapor.py.
 <!-- V327_SON -->
+
+<!-- V328_BAS -->
+## 50) V328 (2026-11-26) — TERSINECEVIRICI GÜNCELLENDİ (etiket 4/4 birebir + avtuzak) + LZMA FORMATI 3.5.1 KAYNAĞINDAN ÇÖZÜLDÜ + AV-TUZAK bit-3 BİLEŞENİ
+
+**TersineCevirici (0xByteDeveloper) → b437c0e (push doğrulandı):**
+- `etiket` komutu (tc_etiket.hpp/cpp): V327 komut→tip etiketlemenin C++ karşılığı — dispatch-arası
+  yazmaç deltaları + bellek olayları + WrapPos giriş/çıkış. **4/4 varyant Python V327 ile BİREBİR**
+  (VARSAYILAN 51, c100 8, ultra 859, ultra_c100 23 — dağılımlar dahil; c100: LOAD(pos)→CALL×2→
+  PROLOG×3→STORE(pos)→RMW). Düzeltilen 3 hata: jmp rbp fazladan dispatch sayıyordu (Python yalnız
+  jmp rbx FF E3), RSP-delta=0'da GPR-dalına düşülmeli, ECX/EDX 32-bit okunmalı.
+- `avtuzak` komutu: [base+idx*scale-K] desen tarayıcı — ALL 0x142998C82-D11 bölgesinde 3 aday,
+  V327'nin kanıtlı tuzağı 0x142998CC2 dahil.
+- Regression: mutasyon 42/42 BİREBİR + oracle 12 olay KORUNDU (mevcut algoritma bozulmadı —
+  askeri titizlik).
+
+**LZMA formatı çözüldü (kullanıcı önerisi doğruydu — vmpsrc içinde vardı):**
+- Packer (core/packer.cc): LZMA level=9, dictSize=1<<24, writeEndMark=true → props 0x5D AYRI 5 bayt
+- Loader (runtime/loader.cc + Loader.cs): PACKER_INFO {Src,Dst} tablosu (Faces.PACKER_INFO=0xFACE0100),
+  ilk girdi props'u gösterir; LzmaDecode(...,-1,...) → akışta boyut alanı YOK (end-marker'lı)
+- ALL'da .#:V bölümü = tablo (25 girdi) ama Dst=0 → koşu-anı çözüm; Src'ler .cqM-içi göreli ofset
+  (Src[0]=0x16F4C60 → 0x142990C60, AV-tuzağına komşu); doğrudan decode 'Corrupt input' → akışlar
+  koşu-anı anahtarlı. S1/S2'nin boş çıkma nedeni: ALONE başlığı arıyorduk — format başlıksız.
+
+**AV-tuzak kaba kuvvet (226/256 K × 25s):**
+- 58 K kızaksız farklı yola sapıyor — TAMAMI bit-3 SET (0x06/0x07...0xE0/0xE1): tuzak baytının
+  bit-3'ü akışı dallayan gerçek bileşen
+- **K=0xE0: 7.479.511 talimat** (180s koşu — normalin 21 katı!) kızak YOK; RIP=..F2 döngüsü
+- textY=0 → tek bayt yetmiyor: VEH çok-baytlı değer üretiyor (Windows dökümü reçetesi geçerli)
+
+**reu (rancy777/reu) analizi:** devirt aracı DEĞİL — 3.8.4 tek-vaka kanıt zinciri (Triton trace-replay
+→ LLVM O3). Kanıtlı VM detayları: VIP=r8 geriye-yürür (1-13 bayt değişken), rolling-key=rbp (550 değer),
+handler tablosu [r11+rcx*8-0x40], dispatch=jmp rsi, VSP=rbx, %78 junk (412× genişleme). Füzyon hakkında
+ipucu yok — gözlemimiz benzersiz. Katkı: concrete-sync'li sembolik replay şablonu + IR-sıkıştırma ölçümü.
+
+**Kaynak yükseltme 3.5.1→3.9.4 kanıtlı fark listesi (6 madde):** (1) superoperator füzyonu 51/8/859/23
+dosya-başına parametre; (2) derin füzyon dx+dy/2×WrapPos/maze+g_dots tek komutta; (3) dispatch 3.8.4'te
+jmp rsi / 3.9.4'te jmp rbx, VIP her ikisinde geriye-yürür; (4) PACKER_INFO LZMA formatı 3.5.1'de aynı,
+3.9.4'te Dst'ler koşu-anı çözülür; (5) 3.9.4 istisna-tabanlı unpacker (AV-tuzak+yığın-LUT); (6) reu'nun
+sürüm-duyarlılığı uyarısı. Aktarım sürüyor.
+
+**Dürüst durum:** MUTATION %100 · sanallaştırılmış %100 · komut-etiketleme %100 (Python + C++ birebir) ·
+ALL LZMA formatı ÇÖZÜLDÜ · ALL koşu-anı anahtarı: bit-3 keşfedildi, tam değer Windows dökümü gerekli ·
+kaynak yükseltme: 6 kanıtlı madde hazır.
+
+**Kanıt:** download/v328_kanit/ (tc_dogrulama.txt, av_kaba.log, vtablo_rapor.txt, betikler×3) +
+V328_rapor.html/md + TersineCevirici b437c0e.
+**Yordam:** scripts/v328_vtablo.py, v328_av_kaba.py, v328_bit3_matris.py, v328_rapor.py + tc_etiket.hpp/cpp.
+<!-- V328_SON -->
