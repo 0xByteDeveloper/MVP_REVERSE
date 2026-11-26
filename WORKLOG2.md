@@ -762,12 +762,13 @@ yükseltmede pcode derleyici ayarı olarak modellendi).
 **Derin füzyon (kanıt):** iki call WrapPos TEK VM komutunda — VARSAYILAN #24, ultra #472.
 ultra'nın 859 dispatch'i = obfuscasyon katmanı komutları (VARSAYILAN'ın ~17 katı).
 
-**ALL (Pack) denemesi (dürüst):** .text/.rdata/.data dosyada sıfır-byte (RA=0,RSZ=0); 31.5MB .cqM
-paket + 19.5MB .FYP bytecode; EP 0x1412B5F2F (push imm32+pushfq+test+call). Wine yok →
-Unicorn+API-taklitçi (LoadLibrary/GetProcAddress/VirtualAlloc/VirtualProtect emülasyonu,
-int3-atlama, OEP=.text'e ilk giriş kancası) unpacker koşusu denendi; koşu dakikalar sürüyor,
-bu ortamda makul sürede OEP'e ulaşamadı (koşu günlüğü: work/v326/all_unpack_bg.log).
-Kesin çözüm gerçek Windows çalışma-anı dökümü — varsayım kullanılmadı.
+**ALL (Pack) denemesi (dürüst, kesin veriyle):** .text/.rdata/.data dosyada sıfır-byte (RA=0,RSZ=0);
+31.5MB .cqM paket + 19.5MB .FYP bytecode; EP 0x1412B5F2F (push imm32+pushfq+test+call). Wine yok →
+Unicorn+API-taklitçi (LoadLibrary/GetProcAddress/VirtualAlloc/VirtualProtect emülasyonu, int3-atlama,
+OEP=.text'e ilk giriş kancası, 500s yerel unicorn zaman aşımı) unpacker koşusu koşturuldu:
+RIP 0x2E1BECA'ya kaçtı (image dışı = aldatmaca döngü), API çağrısı 0, .text dekompres edilmedi.
+Packer dekompres rutini Windows bağlamına (TEB/PEB/çözülmüş IAT) bağımlı. Kesin çözüm gerçek
+Windows çalışma-anı dökümü — varsayım kullanılmadı (döküm: work/v326/ALL_dokum.bin).
 
 **İlerleme (dürüst):** MUTATION %100 · sanallaştırılmış 42-satır üretimi %100 (bu tur) ·
 komut-etiketleme ~%85 (pozitif-yol atıfları tamam; her komutun tip etiketi kaldı) · ALL %0
