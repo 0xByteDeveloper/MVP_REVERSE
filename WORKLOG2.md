@@ -1085,3 +1085,54 @@ YEDEK_V334 107MB (kurtarılan 16 dosya dahil).
 **DURUM: SERİ %100** — ALL-3.5.1 %100 + ALL-3.9.4 %100 + devirt %100 + TC 7 komut.
 Araştırma yönleri: .FYP açık loader devirt, .pdata koşu-anı şifresi, anti-debug akışları.
 <!-- V334_SON -->
+
+<!-- V335_BAS -->
+## 57) V335 (2026-11-27) — BİLGİ TEMELLERİ + TC unpack-tam + YÜKSELTME PROJESİ TAM KURULDU + KAPALI DÖNGÜ
+
+**İki dev bilgi temeli (kullanıcı talebi — "öğrendiğin her şeyi en ince ayrıntısına kadar"):
+download/TersineCevirici.md (12 bölüm: teşhis→mutasyon devirt→oracle→etiket→köprü→5 adımlı
+unpack→sürüm cedveli→taşınma tuzakları→negatif bilgi→kaynak mimarisi→kanıt haritası→sıradaki
+yönler) + download/3_9_4_ALL.md (11 bölüm: dış iskelet→bölüm-bölüm içerik haritası→
+PACKER_INFO→import sistemi→OEP→unpack reçetesi→sürüm karşılaştırması→koşu-anı davranışı→
+varyant sınıflandırması). Her iki dosya TersineCevirici ve MyRepo repolarında.
+
+**chat.z.ai export denemesi:** SKILL (zai_chat_extractor) indirildi + selftest PASS; token
+401 (sunucu tarafı geçersiz — rotasyon; exp süresi dolmamıştı, JWT payload doğrulandı).
+Dersler WORKLOG2 56 bölüm + download raporlarından derlendi. Token yok edildi.
+
+**TersineCevirici eniyileştirme (push fe5a08e):**
+- `unpack-tam` komutu: 5 adımlı zincir TEK KOMUT — liblzma raw LZMA1 (python lzma.FORMAT_RAW
+  ile aynı motor) + orijinal bölüm karşılaştırması + OEP 32/32 OTOMATİK doğrulama + dosya çıktısı
+- Kök-nedefin bulgusu: pe.img RVA-uzayı görüntüsü (bölümler VA'ya serilmiş), LZMA akışları
+  HAM dosya ofsetlerinde → PE.ham alanı eklendi (img/ham ayrımı — sessiz veri kaybını önler)
+- Regresyon: 3.5.1 OEP 32/32 + .data 100%; 3.9.4 OEP 32/32 + .FYP 19.4MB decode;
+  mutasyon 42/42; unpack 129 kayıt — hepsi korundu
+
+**Yükseltme projesi (vmp_yukseltme_3.9.4) TAM YENİDEN KURULDU + DERLENDİ:**
+- v312_patchlib.py yeniden yazıldı (recycle'da kaybolmuştu): bayt düzeyi + CRLF/LF duyarlı +
+  adet doğrulamalı + KAYIT listesi
+- v312_apply_yukseltme.py v330 altyapısına bağlandı + 3 çapa v330 formatına düzeltildi
+  (lang_enum/lang_def/lang_info — v330 üretim formatı farklı)
+- **111 yama noktası uygulandı** (23 dosya, diff 87.803 bayt, +1073/−50)
+- **YAMALI MOTOR DERLENDİ: CON_OK** (19/19 kaynak, work/v330/vmpbuild_patched/bin/)
+- Doğrulama: -vm/-vi/-vc/-rs/-ss anahtarları yardım metninde; -vc 100 -rs 1 vs -rs 2
+  FARKLI boyut+MD5 (dosya-başına rastgelelik = 3.9.4 davranışı)
+- **PACK'Lİ ALL üretildi** (Options=332744=0x513C8 + Version="2" + OutputFileName XML formatı
+  — pack'in çalışması için OutputFileName XML içinde olmalı, tespit edildi): .text/.rdata/
+  .data/.pdata RSZ=0 SANAL + props tek aday @0x1F133
+- **KAPALI DÖNGÜ:** yamalı motorun pack'li çıktısı → TersineCevirici unpack-tam →
+  OEP 0x13B0 32/32 + .data 100% + 5 akış decode — üretim ve çözüm iki uçta da bizde
+
+**Depo (kullanıcı talebi — çalışma verileri dahil):** work/v335_depo/ 64MB → MyRepo push
+3a4eb73: TersineCevirici.md + 3_9_4_ALL.md + kanitlar/ (cozulen_*.bin ×15) +
+kosu_verileri/ (v321-v331 kanıt paketleri: unicorn trace'ler, emülasyon logları, 20/20
+matrisler) + betikler/ (v334 + v312 zinciri + diff + yama kayıtları) + raporlar/ (21 tur
+raporu md) + vmp_3.5.1_yamali_3.9.4_kaynak_V335.zip (yamalı tam kaynak) + üretilmiş
+Test_64_ALL_v335.exe
+
+**Dürüst eksikler (sonraki tur için titiz notlar):** (1) 3.9.4'e özgü early-thunk
+(0x105A/0x1332 ff15→e8) ve .pdata tam-şifreleme yamada YOK — intel.cc/packer.cc'de
+uygulanmalı; (2) .FYP açık-loader deseni (düz x86-64) 3.5.1 şifreli .vmp00'dan farklı —
+loader derleme bayrağı araştırılmalı; (3) resmî 3.9.4 ikilisiyle bayt-düzeyi davranış
+paritesi ölçülmedi (Yandex captcha hâlâ engel); (4) Qt GUI yamalı derlenmedi (konsol OK).
+<!-- V335_SON -->
