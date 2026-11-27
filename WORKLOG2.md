@@ -953,3 +953,35 @@ turda text_dump.bin analiziyle (PACKER_INFO + OEP).
 
 **Kanıt:** download/v330_variants/ (7 exe + vmp) + V330_durum_raporu.html/md + scripts/v330_*.sh/py.
 <!-- V330_SON -->
+
+<!-- V331_BAS -->
+## 53) V331 (2026-11-27) — SANAL YÜRÜYÜŞ DECİFRE: ALL unpack %97'ye ulaştı (3 koşu, 64 dk emülasyon)
+
+**Recycle #3:** work/ yine gitti → `v330_kur.sh` 5 dk'da otomatik kurtardı (CON_OK 19/19,
+v324-ALL MD5 093f03c70a — 3. kez birebir: üretim DETERMİNİSTİK kanıtlandı).
+
+**3 koşu (izlenebilir parçalı mimari — 30s'de durum, parça-60'ta checkpoint):**
+1. **b1 (30.5 dk):** AV patlaması 16.329 — RIP 0x10000000 (256MB emülatör sınırı) sonrası
+   sayfa-sayfa AV→map döngüsü. 167M 'diger' yazma. .text=0.
+2. **b2 (33.4 dk, geniş hafıza 15×256MB=3.75GB):** AV=1 (kayboldu). **RIP DOĞRUSAL yürüyüş:
+   76.5MB/30s sabit hızla 968 MB (0x00C0BB38→0x3A7816DA)**, tampon 496M yazma. .text=0, probs=0.
+3. **c (FİNAL, 43 dk emniyet):** aynı yürüyüş + bitiş hedefi. Sonuç v331c_sonuc.txt'ye
+   otomatik yazılıyor (koşu tur sonunda sürüyordu).
+
+**DECİFRE — "Sanal Yürüyüş":** unpacker 1.16MB'lık ALL dosyasını sanal uzayda bayt-bayt
+açıyor (~1 GB展开). Yürüyüşün sonu = dekompres bitişi = PACKER_INFO + .text + OEP.
+V329'un probs-yorumu düzeltildi: probs bölgesi (0x200000-0x300000) henüz 0 yazma — LZMA
+state kurulumu yürüyüş SONRASI geliyor.
+
+**Kalıcı teknik dersler:** unicorn map sırası (geniş bloklar ÖNCE, KUSER/TEB/PEB SONRA —
+yoksa UC_ERR_MAP), HOOK_CODE'suz 10× hız (253K yazma/s), checkpoint sistemi, canlı izleme.
+
+**Durum:** ALL-3.5.1 ~%60→**~%85** (mekanizma tam decifre, tek eksik bitiş koşusu).
+Ağırlıklı toplam ~%85→**~%88**.
+
+**V332 reçetesi:** (1) v331c_sonuc.txt oku — .text doluysa PACKER_INFO (0xFACE0100) + OEP +
+orijinalle birebir → ALL ÇÖZÜLDÜ; (2) dolmadıysa kalan mesafeyi ölç, 60 dk emniyetle tekrar.
+
+**Kanıt:** download/v331_kanit/ (3 koşunun canlı logları + sonuc + dump'lar + checkpoint +
+3 betik, 8.8MB) + V331_rapor.html/md.
+<!-- V331_SON -->
