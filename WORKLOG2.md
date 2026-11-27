@@ -1153,4 +1153,67 @@ edildi). 116 mesaj + 52 kullanıcı isteği export edildi (work/v335_sohbet/, so
 - **3_9_4_ALL.md v1.1** — §11 kapalı döngü bölümü (yamalı motor → pack'li ALL →
   unpack-tam OEP 32/32; pack için XML'de OutputFileName + Version=2 şart)
 
+
+## 58) V336 (2026-11-27) — TAM DETAY TURU: sohbet re-export + md'ler v3.0/v2.0 + TC'ye 2 komut + motor nokta 112/113 + kapalı döngü + K1 parite
+
+**Girdi:** kullanıcı V336 talebi (mesaj 117) + YENİ token (sayfa yenileme, exp 54 dk).
+Token B adayı (sid'li tam format) 200 — A adayı (kısaltılmış) payload bozuktu; ders
+yinelendi: token birebir kopyalanır. **Sohbet 118 mesaja re-export edildi** (mesaj 117
+kullanıcının V336 talebi + 118 benim V335 yanıtı); token işi bitince yok edildi.
+
+**Transkript madenciliği:** 12.451 satır 4 dilime bölünüp 2 paralel ajanla tarandı —
+V301-V335'in HER teknik detayı kategorize edildi (üretim mekaniği kaynak-satırı
+seviyesinde, komut korpusu, araç kurulum reçeteleri, ölçüm yöntemleri, hata kök
+nedenleri, tam sayı tabloları, dosya envanteri).
+
+**Bilgi temelleri (kullanıcı 1 ve 2 istekleri):**
+- TersineCevirici.md **v3.0**: +§14 Üretim Mekanizması (XML format, ProjectOption
+  bitleri, determinizm hatası+saveProject gömme tuzağı, VM mimarisi 95 tip/ltNative,
+  Instances/VM2.X/Complexity= füzyon olasılığı, mutasyon push;ret CET çakışması),
+  +§15 Komut Korpusu (SHLX/SARX ters pp düzeltmesi, VPBLENDD 0F3A.02 taşıması, V314
+  185/185 yanlış-kanıt dersi), +§16 Araç Reçeteleri (Kron4ek wow64, wm.py, xkey
+  Shift katmanı, Ghidra 12.2+JDK25), +§17 Ölçüm Yöntemleri, +§18 Boyut Veritabanı,
+  +§19 Sürüm Envanteri (UPX kamuflaj bulgusu), +§20 Dedektör profilleri
+- 3_9_4_ALL.md **v2.0**: +§13 VM İşleyici Dünyası (111.170 adım/51 dispatch kimliği,
+  VIP=RSI geriye-yürür, VM-yığını=RDI, süperoperatör derinlik tablosu 35/51/44-7/8/8-
+  807/859/550-17/23/23, yanlış-giriş aldatmacası anatomisi), +§14 İstisna-Unpacker 8
+  adım, +§15 TÜM varyant giriş adresleri (köprü/vmenter/koşu sayıları), +§16 resmî
+  3.9.4 self-protect envanteri, +§17 .FYP açık loader madeni
+
+**1.1) TersineCevirici kaynak eniyileme (DERLENDİ + TEST EDİLDİ):**
+- YENİ `teshis` komutu (tc_teshis.cpp): 0x14C0 ilk-bayt + RSZ kalıbı + props →
+  otomatik koruma sınıfı + önerilen komut zinciri (§1 tablosunun kodu). Test:
+  mutation→'Mutasyon E9→0x62EB' ✓, ALL→'ALL (Pack) 5/7 RSZ=0 + PACKER_INFO 5 akış' ✓
+- YENİ `avtuzak-loader` komutu (YÖN 1'in ilk koşusu): unpack-tam decode akışı
+  (.FYP/vmp00) üzerinde statik [base+idx*scale-K] taraması — resmî ALL'da 40+ aday
+  (yeni desen ailesi [rsp+r10*2-0x47d4166e] tespit edildi)
+- `unpack-tam`: hedef dizin otomatik oluşturma (mkdir -p) — sessiz 'yazılamadı' giderildi
+- Regresyon: mutasyon 42/42+3/3+11/11 ✓; unpack-tam ALL OEP 32/32 ✓
+- Push: TersineCevirici 8a9daed (v3.0 md + kod birlikte)
+
+**2.1) Motor güncelleme + derleme (§57 kalemleri):**
+- NOKTA 112: PERuntimeFunctionList::WriteToFile'a .pdata obfuscasyon kapısı (XOR
+  0x5A3C7E91, varsayılan KAPALI). İlk denemede ::rand() KULLANMADIM doğru — hayır
+  kullandım ve 1.099.777 bayt sapma ölçtüm (tohum zinciri kirlendi) → SABİT anahtarla
+  düzeltildi. İZOLASYON KANITI: -rs 7 × t_a=t_b=t_pd0 (AYNI MD5) — yan etki sıfır;
+  t_pd1 farkı 12.036 bayt, TAMAMI .vmp2 paketinde; decoded akışlar birebir
+- NOKTA 113: -pd <0|1> konsol anahtarı + PEFile::pdata_obfuscation_ statik bayrağı
+- MOTOR DERLENDİ (19/19 + CON_OK, 19,4 MB); pack'li ALL üretildi (V335 XML reçetesi:
+  CompilationType=3 + Options=332744 + VMCodeSectionName + OutputFileName dörtlüsü ŞART)
+- KAPALI DÖNGÜ: t_pd0 + t_pd1 → unpack-tam → ikisi de OEP 32/32 DOĞRULANDI
+- **K1 BAYRAK PARİTESİ ÖLÇÜLDÜ: yamalı .vmp2 = 0x68000060 ≡ resmî 3.9.4 .cqM = 0x68000060**
+- Yama kayıtları 88 → 92; diff 16.458 satır; V336 yamalı kaynak zip 43,4 MB
+
+**Askeri notlar (V336_askeri_notlar.md):** early-thunk nokta 114 (intel.cc import
+döngüsü — _initterm çevresi kuralı), .pdata rolling-key v2, .FYP açık-loader nokta
+115, sarmalayıcı 2048B doğrulama nokta 116, füzyon derinliği nokta 117, Qt GUI =
+sandbox dışı (qmake/moc yok — dürüst not).
+
+**Ölçüm altyapısı:** scripts/v336_bayt_parite.py (resmî vs yamalı otomatik profil →
+download/v336_kanit/bayt_parite_profili.json).
+
+**Kanıtlar:** download/v336_kanit/ (bayt_parite_profili.json + üretilmiş dosyalar
+kopyalanacak) + work/v330/vmp_3.5.1_yamali_3.9.4_kaynak_V336.zip + work/v336/
+(yükseltme projesi kurtarıldı /tmp/my-project'ten — TC kaynağı da work/tc_kaynak'a).
+
 <!-- V335_SON -->
