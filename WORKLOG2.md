@@ -1216,4 +1216,63 @@ download/v336_kanit/bayt_parite_profili.json).
 kopyalanacak) + work/v330/vmp_3.5.1_yamali_3.9.4_kaynak_V336.zip + work/v336/
 (yükseltme projesi kurtarıldı /tmp/my-project'ten — TC kaynağı da work/tc_kaynak'a).
 
+
+## 59) V337 (2026-11-27) — x3 TAM TUR: TEMİZ TABAN + NOKTA 114/115 KAPANDI + GOD_SSS_TIER KURULDU
+
+**Kullanıcı talimatı (x1/x2/x3):** 1+1.1 ✓ bitti; 2+2.1 durum dürüst raporlanacak;
+kalan §57 kalemleri BU TURDA hepsi yapılacak; %100000 x3'e; GOD_SSS_TIER_MVP_3.5.1_TO_
+VMP3.9.4 repo'suna kaynak + zip + derlenmiş ikili push.
+
+**Base kararı (x3):** MyRepo'daki vmp_yukseltme_3.9.4 'kirli' değil ama V336 zip'i
+work/ gitignore'lı kaldığı için repolara GİTMEMİŞTİ (ders). Kullanıcının işaret ettiği
+GOD_SSS_TIER'daki universalObfusPublicSrc_kaynak_kod.zip TEMİZ TABAN seçildi.
+
+**Temiz taban uyarlaması (beklenmedik 5 engel, hepsi aşıldı):**
+1. V335 diff'i `a/universalObfusPublicSrc/` önekli + karışık CRLF → Python bölücü +
+   çift-taraf LF normalizasyonu + öneksiz yeniden yazım ile 23/23 dosya uygulandı
+2. lang_enum.inc hunk'ı reddedildi (bu zip `lsCNT };` bitişik) → elle 8 anahtar eklendi
+3. lang_info.inc bozuldu (}; yanlış yerde + {"xx","ad"} formatı bu zip'te {lsX,"ad"}) →
+   yapı + 9 giriş format çevirisi
+4. pe.h/dotnet.h enum çakışması bu zip'te TERS yönde (pe.h önce) → dotnet.h'ye #undef
+5. Bu zip üçüncü-partiyi KAYNAK veriyor: liblua (readline'sız çekirdek), liblzma_vmp
+   (LzmaDecode.cc varyantı), libtinyxml (TIXML_USE_STL+cassert), libdemangle (BOOL=int
+   + MSVC string makroları + 6 C başlığı), libcrypto64.a MyRepo'dan — 4/4 .a kuruldu
+
+**Motor: 19/19 kaynak + LINK OK → vmprotect_con 19,5 MB.**
+
+**NOKTA 114 (early-thunk) — BU TURUN KALBİ:**
+- 62 fark bloğu TAM sınıflandırıldı: K1 ff15→e8 ×21 | K2 ff25→push+call ×17 | K3 gövde
+  e9 ×1 | K4 1-bayt rel32 ×21 | K5 veri-referans ×2 (0x105A `48 8b 3d`, 0x1E45
+  `48 8b 1d`) — işte 3.9.4'e özgü aile
+- Yama: files.h ioValueThunk biti (0x1000) + ImportProtection bayrak sınıfı + intel.cc
+  20309 kapı (veri-referanslı import ioValueThunk alır) + 21429 liste genişletmesi
+  (ioValueThunk'lular IAT-gizleme listesine girer) + main.cc -et 0|1
+- ÖLÇÜM: `-et 1` → **0x105A `48 8b 3d` → `e8 a8 80 19 00 4d`** ve **0x1E45 →
+  `55 e8 ee ea 10 00`** — resmî 3.9.4 deseniyle birebir aile; 0x1332 zaten e8'di;
+  **ff25 35/35 → 0**, e8 sayısı 94→136 (+42)
+- izolasyon: et0 = pd0 = a = b (MD5); et1 farkı yalnız -et kaynaklı
+
+**NOKTA 115 (.FYP açık-loader) — LİSANS SIRRI ÇÖZÜLDÜ:**
+- cpEncryptBytecode core.cc:1802'de YALNIZ `VMProtectGetSerialNumberState() ==
+  SERIAL_STATE_SUCCESS` (yani lisans) ve `#ifndef DEMO` altında açılıyor → resmî 3.9.4
+  .FYP'sinin ŞİFRELİ olmasının, bizimkiyle arasındaki TEK fark bu bit değil ama ana
+  anahtarı bu: DEMO derlemede şifre KAPALI
+- Yama: Core::set_force_encrypt_bytecode + core.cc aktarımı + main.cc -de 0|1
+- ÖLÇÜM: `-de 1` → 1.258.496 → 1.918.976 B (+%52), .vmp0 0x1BFE7C→0x1C3E2A
+  (şifre-çözme fazı eklendi — V323 'ilk ~46 komut decrypt' bulgusunun motor karşılığı)
+
+**Kapalı döngü (5 varyant):** et0/et1/pd0/pd1/de1 → unpack-tam → **OEP 32/32 hepsi**.
+-de 1'de .text/.pdata decode farkı beklenen (şifreli üretim), .data birebir.
+
+**GOD_SSS_TIER repo KURULDU (push 6d12c81):** README (derleme reçetesi + anahtar
+tablosu + nokta haritası + dürüst eksikler) + yamalı tam kaynak zip (16 MB) +
+derlenmiş vmprotect_con (19 MB) + v337_kanit (et0/et1/pd1/de1 + decoded .text) +
+yama_kayitlari.json (125 nokta) + build_v337.sh.
+
+**Teslimler:** download/v337_README_GOD_SSS_TIER.md + download/v337_kanit/ (ikili +
+4 üretim + zip + kayıtlar).
+
+**Sonraki tur:** (1) e8+5e birebir üretim (114-v2: pop-ile-değer deseni); (2) rolling
+.pdata (112-v2); (3) Qt GUI Windows derlemesi.
+
 <!-- V335_SON -->
