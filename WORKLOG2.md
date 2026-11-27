@@ -985,3 +985,40 @@ orijinalle birebir → ALL ÇÖZÜLDÜ; (2) dolmadıysa kalan mesafeyi ölç, 60
 **Kanıt:** download/v331_kanit/ (3 koşunun canlı logları + sonuc + dump'lar + checkpoint +
 3 betik, 8.8MB) + V331_rapor.html/md.
 <!-- V331_SON -->
+
+<!-- V332_BAS -->
+## 54) V332 (2026-11-27) — 🎯 ALL STATİK DEKOMPRES ÇÖZÜLDÜ (koşu-yaklaşımı kapatıldı — kaynak-okuma pivotsu)
+
+**Recycle #4:** work/ yine gitti → v330_kur.sh otomatik kurtardı (CON_OK, 7 varyant MD5 birebir).
+
+**Koşu-yaklaşımının SONU:** 43 dk'lık geniş-hafıza koşusu RIP=0x4E8F9002'ye (1.3 GB doğrusal
+yürüyüş) ulaştı ama .text=0 → askeri şüphe doğruydu: yürüyüş unpack DEĞİL, kızak (loader,
+VEH/LoaderAlloc emüle edilmediği için hata yoluna sapmış). 3 başarısız koşu (V329/V331/V332)
+→ ASKERİ KURAL: yaklaşımı DEĞİŞTİR.
+
+**PİVOT — kaynak-okuma + STATİK çözüm (başarılı):**
+- loader.cc:2286 unpack döngüsü: ilk PACKER_INFO girişi = props (Src=RVA, Dst=boyut=5),
+  sonraki girişler = [akış_RVA][bölüm_RVA] çiftleri
+- intel.cc:23123: PACKER_INFO = cmDD komut zinciri (dosyada düz uint32 dizisi olarak durur)
+- packer.cc:86: props = 5D 00 00 00 01 (level 9, endMark, dict=1<<24)
+- Dosyada props imzası @0x2EC0 → RVA 0x1C90C0 → [RVA][05] deseni @0x10DF93
+  → **PACKER_INFO TABLOSU BULUNDU VE ÇÖZÜLDÜ**
+- 4 LZMA akışı python FORMAT_RAW ile decode edildi (~2 saniye):
+  * .data %100 birebir
+  * .text: korunan kod birebir (farklar YALNIZCA bilinçli: ff25→e8 import-koruması ~24 thunk,
+    MovePlayer gövdesi→e9 VM jmp — V324 deseni)
+  * .rdata: 0x0-0x400+0xE00+ birebir; 0x400-0xE00 import tablosu ŞİFRELİ
+  * .pdata kısmi (loader koşu-anında yeniden yazıyor)
+- **geri_kurulmus_payload.bin (12800 bayt)** — orijinal iskelet + decoded 4 bölüm
+
+**Durum:** ALL-3.5.1 unpack LZMA katmanı %100 (statik). Ağırlıklı toplam ~%88 → **~%93**.
+
+**Kalan:** (1) import şifresi (loader.cc FACE_ mekanizması — kaynak elimizde), (2) OEP,
+(3) aynı 5 adımlı yöntem 3.9.4 orijinal ALL'a, (4) TersineCevirici'ye `unpack` komutu.
+
+**Yedek (kullanıcı talebi):** upload/YEDEK_V332/ — 23MB, 63 öğe: 11 kanıt paketi (koşular
+dahil: canlı loglar + dump'lar + checkpoint'ler) + varyantlar + raporlar + betikler + WORKLOG.
+
+**Kanıt:** download/v332_kanit/ — PACKER_INFO_ANALIZ.txt + cozulen_*.bin ×4 +
+geri_kurulmus_payload.bin + betikler. V332_rapor.html/md.
+<!-- V332_SON -->
