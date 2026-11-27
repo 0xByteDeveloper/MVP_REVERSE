@@ -1022,3 +1022,34 @@ dahil: canlı loglar + dump'lar + checkpoint'ler) + varyantlar + raporlar + beti
 **Kanıt:** download/v332_kanit/ — PACKER_INFO_ANALIZ.txt + cozulen_*.bin ×4 +
 geri_kurulmus_payload.bin + betikler. V332_rapor.html/md.
 <!-- V332_SON -->
+
+<!-- V333_BAS -->
+## 55) V333 (2026-11-27) — 🎯 IMPORT ŞİFRESİ + OEP ÇÖZÜLDÜ — ALL unpack zinciri TAMAM
+
+**V333-b) Import (known-plaintext + kaynak-okuma):**
+- Kaynak: intel.cc:22386 EncryptString (`enc[i]=pt[i]^uint8(rotl32(key,i)+i)`),
+  key=rand32() dosya-başına (crypto.cc: libc rand); loader.cc:2337 import döngüsü
+  (`*(dst+Address) = GPA(h,api) - Key` — IAT gizleme)
+- Saldırı: 37 baytlık bilinen DLL adının i=0,8,16,24 baytları key'in 4 dilimini tek
+  geçişte verir → **key=0xADF33A3C** @0x10D80B (tek doğrulama konumu)
+- 200+ string: 11 DLL + 134 API + anti-debug sürücüleri (sice/ntice/siwvid/iceext/syser .sys)
+  + loader API'leri (Nt* syscall seti, wine_get_version tespiti)
+- Tablo 0xE3D7D: 148 kayıt — DLL başlık [DLL_RVA][IAT_baş][0] + API [Name][thunk][Key];
+  orijinal IAT ile 28/36 birebir; _fpreset (Key=0) biçim kanıtı
+
+**V333-c) OEP = 0x13B0:** VMP EP=0x29E196 (VM); decoded .text @0x13B0 orijinalle 32/32
+birebir. unpack_saf.bin: .text 6144/6144 — statik dekompresin nihai kanıtı.
+
+**V333-d) 3.9.4:** .cqM'li V324 dosyaları recycle'larda kayıp; eldeki 3.9.4-korumalı
+dosyalarda pack kapalı (RSZ'li bölümler, PACKER_INFO yok — beklenen). Yöntem hazır;
+.vmp projeleri YEDEK'te — dosya üretilirse anında uygulanır.
+
+**V333-e) TersineCevirici `unpack` komutu (push f63eed3):** tc_unpack.cpp — props arama →
+PACKER_INFO (5 akış) → known-plaintext key → 149 kayıt. C++ derlendi, gerçek dosyada
+python ile birebir aynı çıktı doğrulandı. Artık 7 alt komut.
+
+**Çıktılar:** v333_kanit/ (IMPORT_OEP_KANIT.txt + unpack_nihai.bin + unpack_saf.bin +
+cozulen_vmp00.bin 1.83MB + import_rapor.json) · V333_rapor.html/md · YEDEK_V333.
+
+**Durum:** ~%93 → **~%97**. Kalan tek iş: 3.9.4 .cqM'li ALL'ı yeniden üret + unpack uygula.
+<!-- V333_SON -->
