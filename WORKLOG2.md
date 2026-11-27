@@ -1135,4 +1135,22 @@ Test_64_ALL_v335.exe
 uygulanmalı; (2) .FYP açık-loader deseni (düz x86-64) 3.5.1 şifreli .vmp00'dan farklı —
 loader derleme bayrağı araştırılmalı; (3) resmî 3.9.4 ikilisiyle bayt-düzeyi davranış
 paritesi ölçülmedi (Yandex captcha hâlâ engel); (4) Qt GUI yamalı derlenmedi (konsol OK).
+
+**V335-g/h/i) SOHBET EXPORT TAMAMLANDI (token kök-nedeni çözüldü):** Yeni token dosyadan
+HAM okununca 200 (ilk 401'in nedeni BENİM hatamdı: payload'daki sid'yi elle "düzeltirken"
+JWT imzasını bozmuşum — DERS: token'ı asla elle yeniden yazma, dosyadan oku; token yok
+edildi). 116 mesaj + 52 kullanıcı isteği export edildi (work/v335_sohbet/, sohbet.md
+1.59MB + sohbet.json 20.7MB → depo sohbet_arşivi/). Ürünler:
+- **SOHBET_DERSLERI.md** — tur-ziyade ders defteri: 52 isteğin kronolojisi (V301-V335),
+  her turda becerilen/hata/çıkarılan ders + paylaşılan dosyalar tablosu + 17 maddelik
+  genel ders kataloğu (force-push yasağı, ölçmeden-tamamlandı yazmama, 3-başarısızlık
+  kuralı, kaynaktan-format-okuma, token disiplini...)
+- **TersineCevirici.md v2.1** — §0.1 köken (42-satır referans disassembly KULLANICININ
+  listesidir; kaynak repolar ilyida/vmp3-demo-devirt + whoamicrashh/VMProtectDumper +
+  whowould/VMProtect-Unpacker; universalAllver.rar MD5-çapraz kanıtı; GhostStep LCG;
+  rea+Ghidra "Failed to create function" = analiz direnci kanıtı; 111. nokta yazmaç
+  rastgeleliği) + §12 süreç dersleri + tc_lzma/unpack-tam mimari (TC push 1f166f5)
+- **3_9_4_ALL.md v1.1** — §11 kapalı döngü bölümü (yamalı motor → pack'li ALL →
+  unpack-tam OEP 32/32; pack için XML'de OutputFileName + Version=2 şart)
+
 <!-- V335_SON -->
