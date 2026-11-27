@@ -1053,3 +1053,35 @@ cozulen_vmp00.bin 1.83MB + import_rapor.json) · V333_rapor.html/md · YEDEK_V33
 
 **Durum:** ~%93 → **~%97**. Kalan tek iş: 3.9.4 .cqM'li ALL'ı yeniden üret + unpack uygula.
 <!-- V333_SON -->
+
+<!-- V334_BAS -->
+## 56) V334 (2026-11-27) — 🎯 3.9.4 ORİJİNAL ALL ÇÖZÜLDÜ — SERİ %100
+
+**Kurtarma (V334-a):** kayıp V324 serisi kullanıcının `localdekendimdenedim.rar`
+arşivinde bulundu: 16 dosya/103MB (ts=2026-11-18, 3.9.4 GUI+wine üretimi) + hiç
+analiz edilmemiş 5 varyant (Pack_Output, import_protection, Memory_Protection,
+debugger_user×2, strip×2). → work/v334/v324kurtarma/
+
+**3.9.4 ALL unpack (V334-b/c) — V332/V333 yöntemi BİREBİR çalıştı:**
+- props imzası (5D 0000 00 01) tek aday @0x118A909 → PACKER_INFO @0x1164D4C → 5 LZMA akışı
+- KEY=0x7114E936 (known-plaintext; 3.5.1'in 0xADF33A3C'ünden farklı → dosya-başına
+  rand32 teyit) → 5617 string; 13 DLL + 5 anti-debug .sys 3.5.1 ile BİREBİR aynı
+- OEP=0x13B0: 32/32 — 3.5.1 ile AYNI
+- .text %88.1: 66 fark bloğu/353B tamamı bilinçli (ff25/ff15→e8 thunk'lar + MovePlayer
+  e9 @0x14C0-0x1561 + 3.9.4'e özgü erken-thunk 0x105A/0x1332)
+- .pdata 3.9.4'te TAMAMEN şifreli (3.5.1'de kısmen düz)
+- **.FYP 7.7MB: loader kodu AÇIK** (düz x86-64, cc dolgu — 3.5.1 .vmp00 şifreliydi)
+  → devirt için hazır kaynak
+- Key=0 import kayıtları IAT RVA doğrudan: __acrt_iob_func=0x38E0, _fpreset=0x3960 ✓
+- Pack_The_Output_File varyantı da çözüldü: tablo @0x4374F3, .text %93.8 + OEP 32/32
+
+**TersineCevirici (push a630e9b):** import taramasına zincir-filtre (≥3 ardışık
+kayıt) + min uzunluk 6 → 3.9.4'te 128 kayıt, 3.5.1 regresyon OK (127 kayıt).
+
+**Çıktılar:** v334_kanit/ (cozulen_394_*.bin ×5 + unpack_394.bin + cozulen_packout_*.bin
++ fark_351_vs_394.json + KURTARMA_VE_COZUM_KANITI.txt) · V334_rapor.html/md ·
+YEDEK_V334 107MB (kurtarılan 16 dosya dahil).
+
+**DURUM: SERİ %100** — ALL-3.5.1 %100 + ALL-3.9.4 %100 + devirt %100 + TC 7 komut.
+Araştırma yönleri: .FYP açık loader devirt, .pdata koşu-anı şifresi, anti-debug akışları.
+<!-- V334_SON -->
